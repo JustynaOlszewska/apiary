@@ -1,18 +1,9 @@
 # Quasar App (apiary)
 
-A Quasar Project
+A Quasar Project witch DOCKER
 
-## Install the dependencies
-```bash
-yarn
-# or
-npm install
-```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
-```
+### Start the app in development mode (hot-code reloading, error reporting, build and run container etc.)
+docker compose up --build
 
 
 ### Lint the files
