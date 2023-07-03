@@ -1,6 +1,20 @@
 {
   "extends": "@quasar/app-vite/tsconfig-preset",
   "compilerOptions": {
-    "baseUrl": "."
+    // "types": [
+    //   // ... your other types
+    //   "node"
+    // ],
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": ["src/*"]
+    //   // "@components/*": ["src/components/*"],
+    //   // "@assets/*": ["src/assets/*"],
+    //   // "@constant/*": ["src/constant/*"]
+    // }
   }
+  // "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+
+  // "include": ["src"]
+  // "references": [{ "path": "./tsconfig.node.json" }]
 }

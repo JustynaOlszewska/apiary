@@ -1,5 +1,13 @@
 <template>
-  <q-item
+  <q-item-section avatar>
+    <!-- <p>//{{ icon }}</p> -->
+    <!-- <p>//{{ menu_book }}</p> -->
+    <q-icon :name="icon"></q-icon>
+  </q-item-section>
+  <!-- <div> -->
+  <router-link :to="link">{{ title }}</router-link>
+  <!-- </div> -->
+  <!-- <q-item
     clickable
     tag="a"
     target="_blank"
@@ -16,10 +24,11 @@
       <q-item-label>{{ title }}</q-item-label>
       <q-item-label caption>{{ caption }}</q-item-label>
     </q-item-section>
-  </q-item>
+  </q-item> -->
 </template>
 
 <script setup lang="ts">
+// import { menu_book } from '@quasar/extras/material-icons';
 export interface EssentialLinkProps {
   title: string;
   caption?: string;
@@ -29,6 +38,6 @@ export interface EssentialLinkProps {
 withDefaults(defineProps<EssentialLinkProps>(), {
   caption: '',
   link: '#',
-  icon: '',
+  icon: ''
 });
 </script>

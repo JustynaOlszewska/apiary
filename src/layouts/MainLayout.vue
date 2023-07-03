@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr lff">
     <h1>{{ $t('welcome') }}</h1>
     <q-header elevated>
       <q-toolbar>
@@ -9,7 +9,7 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="toggleLeftDrawer"
+          @click="drawerClick"
         />
 
         <q-toolbar-title @click="onFocusInput">
@@ -52,7 +52,13 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+      :mini="miniState"
+      class="bg-grey-10 text-white"
+    >
       <q-list>
         <q-item-label header> Essential Links </q-item-label>
 
@@ -75,72 +81,61 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
-import EssentialLink, {
-  EssentialLinkProps
-} from 'components/EssentialLink.vue';
+import { ref, watch, computed, onMounted } from 'vue';
+import EssentialLink from '../../src/components/EssentialLink.vue';
 import { options } from '../../src/constant/dataForm';
 import { ModelValueLang } from '../../src/interfaces/form';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+// import { menu_book } from '@quasar/extras/material-icons';
 
 const i18n = useI18n();
 const router = useRouter();
 
-const essentialLinks: EssentialLinkProps[] = [
+const leftDrawerOpen = ref(false);
+//zastąpione drawerClick
+// function toggleLeftDrawer() {
+//   leftDrawerOpen.value = !leftDrawerOpen.value;
+// }
+const miniState = ref(false);
+
+const drawerClick = (e) => {
+  // if in "mini" state and user
+  // click on drawer, we switch it to "normal" mode
+  if (miniState.value) {
+    miniState.value = false;
+
+    // notice we have registered an event with capture flag;
+    // we need to stop further propagation as this click is
+    // intended for switching drawer to "normal" mode only
+    e.stopPropagation();
+  } else {
+    miniState.value = true;
+  }
+};
+const defaultLang = computed(() => {
+  // i18n.locale.value = newValue.value;
+  const w = router.currentRoute.value.params.lang || i18n.locale.value;
+
+  return options.find((el) => el.value === w);
+});
+console.log('qqqqqqqqqqqqqq', defaultLang.value?.value);
+
+const essentialLinks: any[] = [
   {
-    title: 'Docs',
+    title: 'Apiaries',
     caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
+    icon: 'signpost',
+    // link: '/apiaries'
+    link: `/${defaultLang.value?.value}/apiaries`
   },
   {
-    title: 'Github',
+    title: 'Beehives',
     caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
+    icon: 'inventory_2',
+    link: `/${defaultLang.value?.value}/behives`
   }
 ];
-
-const leftDrawerOpen = ref(false);
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
-}
-const defaultLang = computed(() => {
-  return options.find((el) => el.value === i18n.locale.value);
-});
-
 const model = ref<ModelValueLang | undefined>(defaultLang.value);
 const backgroundColorInInput = ref<boolean>(false);
 const dropdownVisible = ref<HTMLElement | null>(null);
@@ -148,20 +143,31 @@ const dropdownVisible = ref<HTMLElement | null>(null);
 const onFocusInput = () => {
   backgroundColorInInput.value = !backgroundColorInInput.value;
 };
-watch(
-  () => model.value as ModelValueLang,
-  (newValue: ModelValueLang) => {
-    if (newValue) {
-      options.forEach((el) => {
-        if (el.value === newValue.value) {
-          el.hide = true;
-        } else {
-          el.hide = false;
-        }
-      });
-      i18n.locale.value = newValue.value;
-      router.replace({ params: { lang: newValue.value } });
+onMounted(() => {
+  options.forEach((el) => {
+    if (el.value === router.currentRoute.value.params.lang) {
+      el.hide = true;
+    } else {
+      el.hide = false;
     }
-  }
-);
+  });
+  i18n.locale.value = router.currentRoute.value.params.lang;
+}),
+  watch(
+    () => model.value as ModelValueLang,
+    (newValue: ModelValueLang) => {
+      if (newValue) {
+        options.forEach((el) => {
+          if (el.value === newValue.value) {
+            el.hide = true;
+          } else {
+            el.hide = false;
+          }
+        });
+        i18n.locale.value = newValue.value;
+        router.replace({ params: { lang: newValue.value } });
+        backgroundColorInInput.value = false;
+      }
+    }
+  );
 </script>
