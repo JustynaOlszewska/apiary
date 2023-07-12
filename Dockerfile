@@ -3,6 +3,7 @@ FROM node:lts-alpine AS development
 # ENV NODE_ENV development
 # Add a work directory
 # WORKDIR /SnakeGame
+# RUN npm install -g json-server
 WORKDIR /apiary
 # Cache and Install dependencies
 # COPY package.json .

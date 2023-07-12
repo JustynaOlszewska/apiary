@@ -9,15 +9,21 @@
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev",
-    "build": "quasar build"
+    "dev-front": "quasar dev",
+    "build": "quasar build",
+    "server": "json-server --watch db.json --port 3000 --host 0.0.0.0",
+    "dev": "concurrently \"npm run server\" \"npm run dev-front\""
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^1.2.1",
+    "chart.js": "^4.3.0",
+    "concurrently": "^8.2.0",
+    "json-server": "^0.17.3",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
+    "vue-chartjs": "^5.2.0",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.0.0"
   },

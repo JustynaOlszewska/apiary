@@ -1,7 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lff">
-    <h1>{{ $t('welcome') }}</h1>
-    <q-header elevated>
+    <q-header elevated :class="'bg-grey-10'">
       <q-toolbar>
         <q-btn
           flat
@@ -11,7 +10,8 @@
           aria-label="Menu"
           @click="drawerClick"
         />
-
+        <!-- <p>//wwwwww{{ lang }}</p>
+        <p>//{{ defaultLang }}</p> -->
         <q-toolbar-title @click="onFocusInput">
           <div class="row">
             <q-select
@@ -113,13 +113,16 @@ const drawerClick = (e) => {
     miniState.value = true;
   }
 };
+const lang = computed(() => {
+  // router.currentRoute.value.params.lang ||
+  return i18n.locale.value;
+});
 const defaultLang = computed(() => {
   // i18n.locale.value = newValue.value;
-  const w = router.currentRoute.value.params.lang || i18n.locale.value;
-
-  return options.find((el) => el.value === w);
+  // const r = options.find((el) => el.value === lang.value);
+  // const w = router.currentRoute.value.params.lang || i18n.locale.value;
+  return options.find((el) => el.value === lang.value);
 });
-console.log('qqqqqqqqqqqqqq', defaultLang.value?.value);
 
 const essentialLinks: any[] = [
   {
@@ -127,13 +130,13 @@ const essentialLinks: any[] = [
     caption: 'quasar.dev',
     icon: 'signpost',
     // link: '/apiaries'
-    link: `/${defaultLang.value?.value}/apiaries`
+    link: `/${i18n.locale.value}/apiaries`
   },
   {
     title: 'Beehives',
     caption: 'github.com/quasarframework',
     icon: 'inventory_2',
-    link: `/${defaultLang.value?.value}/behives`
+    link: `/${i18n.locale.value}/behives`
   }
 ];
 const model = ref<ModelValueLang | undefined>(defaultLang.value);
@@ -144,30 +147,32 @@ const onFocusInput = () => {
   backgroundColorInInput.value = !backgroundColorInInput.value;
 };
 onMounted(() => {
-  options.forEach((el) => {
+  options?.forEach((el) => {
     if (el.value === router.currentRoute.value.params.lang) {
       el.hide = true;
     } else {
       el.hide = false;
     }
   });
-  i18n.locale.value = router.currentRoute.value.params.lang;
-}),
-  watch(
-    () => model.value as ModelValueLang,
-    (newValue: ModelValueLang) => {
-      if (newValue) {
-        options.forEach((el) => {
-          if (el.value === newValue.value) {
-            el.hide = true;
-          } else {
-            el.hide = false;
-          }
-        });
-        i18n.locale.value = newValue.value;
-        router.replace({ params: { lang: newValue.value } });
-        backgroundColorInInput.value = false;
-      }
+  if (i18n.locale) {
+    i18n.locale.value = router.currentRoute.value.params.lang;
+  }
+});
+watch(
+  () => model.value as ModelValueLang,
+  (newValue: ModelValueLang) => {
+    if (newValue) {
+      options.forEach((el) => {
+        if (el.value === newValue.value) {
+          el.hide = true;
+        } else {
+          el.hide = false;
+        }
+      });
+      i18n.locale.value = newValue.value;
+      router.replace({ params: { lang: newValue.value } });
+      backgroundColorInInput.value = false;
     }
-  );
+  }
+);
 </script>
