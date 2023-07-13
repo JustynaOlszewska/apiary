@@ -44,13 +44,15 @@ export default route(function (/* { store, ssrContext } */) {
   //   }
   //   return next();
   //   }
+
   Router.beforeEach((to, from, next) => {
     const langFroom = from.params.lang;
     const lang = to?.params?.lang;
+    const publicPages = ['login'];
     console.log('qqqqqqqqqqqqqqRouter111fff', lang, langFroom, i18n);
     if (!lang) {
       // i18n.locale = lang;
-      return next('pl');
+      return next('pl/login');
     }
     // Router.replace({ params: { lang: 'en' } });
     else if (langFroom !== lang) {

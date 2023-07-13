@@ -137,6 +137,18 @@ const essentialLinks: any[] = [
     caption: 'github.com/quasarframework',
     icon: 'inventory_2',
     link: `/${i18n.locale.value}/behives`
+  },
+  {
+    title: 'Login',
+    caption: 'github.com/quasarframework',
+    icon: 'inventory_2',
+    link: `/${i18n.locale.value}/login`
+  },
+  {
+    title: 'Register',
+    caption: 'github.com/quasarframework',
+    icon: 'inventory_2',
+    link: `/${i18n.locale.value}/register`
   }
 ];
 const model = ref<ModelValueLang | undefined>(defaultLang.value);

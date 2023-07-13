@@ -4,10 +4,16 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/:lang',
     component: () => import('../layouts/MainLayout.vue'),
+    // redirect: (to) => {
+    //   console.log('qqqqqqqqqqqqqqRouter111', to);
+
+    //   // the function receives the target route as the argument
+    //   // we return a redirect path/location here.
+    //   return { path: 'pl/login' };
+    // },
     beforeEnter(to, from, next) {
       const lang = to.params.lang;
       const lang1 = from?.params?.lang;
-      console.log('qqqqqqqqqqqqqqRouter111', lang, lang1);
 
       if (!lang) {
         // i18n.locale = lang;
@@ -31,6 +37,26 @@ const routes: RouteRecordRaw[] = [
         path: 'behives',
         name: 'behives',
         component: () => import('../components/BeehivesList.vue'),
+        beforeEnter(to, from, next) {
+          // const langStore = useSettingLang()
+          // const lang = to.params.lang
+          return next();
+        }
+      },
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('../components/login/LoginForm.vue'),
+        beforeEnter(to, from, next) {
+          // const langStore = useSettingLang()
+          // const lang = to.params.lang
+          return next();
+        }
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: () => import('../components/login/RegisterForm.vue'),
         beforeEnter(to, from, next) {
           // const langStore = useSettingLang()
           // const lang = to.params.lang
