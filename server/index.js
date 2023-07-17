@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+const connectDB = require('../config/db');
 const app = express();
+connectDB();
 const host = 'http://localhost';
 const apiary = require('./routes/api/apiary');
 const auth = require('./routes/api/auth');
