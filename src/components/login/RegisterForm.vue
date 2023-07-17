@@ -39,6 +39,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuth } from '../../stores/auth-store';
+import { v4 as uuidv4 } from 'uuid';
+
 const authStore = useAuth();
 
 const email = ref(null);
@@ -52,8 +54,12 @@ const myForm = ref(null);
 function onSubmit() {
   myForm.value.validate().then((success) => {
     if (success) {
-      // console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', data)
-      const registerData = { email: email.value, password: password.value };
+      console.log('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', uuidv4());
+      const registerData = {
+        email: email.value,
+        password: password.value,
+        uuid: uuidv4()
+      };
       authStore.registerUser(registerData);
       // yay, models are correct
     } else {

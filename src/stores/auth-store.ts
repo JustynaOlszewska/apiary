@@ -5,10 +5,12 @@ import { i18n } from '../boot/i18n';
 
 interface State {
   counter: number;
+  errorLogin: boolean;
 }
 export const useAuth = defineStore('auth', {
   state: (): State => ({
-    counter: 0
+    counter: 0,
+    errorLogin: false
   }),
   getters: {
     doubleCount: (state) => state.counter * 2
@@ -23,9 +25,11 @@ export const useAuth = defineStore('auth', {
         const data = await axios.post('http://localhost:3000/login', dataUser);
         if (data) {
           console.log('datalogin', data, dataUser);
+          this.errorLogin = false;
         }
       } catch (error) {
         console.log('errorlogin', error);
+        this.errorLogin = true;
       }
     },
     async registerUser(dataNewUser) {
