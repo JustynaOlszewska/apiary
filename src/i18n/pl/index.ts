@@ -1,5 +1,21 @@
 export default {
   welcome: 'Witam',
+  register: {
+    username: 'Imię i nazwisko',
+    password: 'Hasło',
+    submit: 'Rejestruj',
+    title: 'Rejestracja',
+    label: {
+      email: 'Twój email *',
+      password: 'Hasło *',
+      name: 'Imię i nazwisko *'
+    },
+    rules: {
+      email: 'Proszę wpisz email',
+      password: 'Proszę wpisz hasło',
+      name: 'Proszę wpisz imię i nazwisko'
+    }
+  },
   login: {
     username: 'Nazwa',
     password: 'Hasło',
@@ -24,7 +40,7 @@ export default {
     }
   },
   chartTitle: 'Zestawienie danych dotyczących pasiek',
-  countBehives: 'Liczba uli',
+  countBeehives: 'Liczba uli',
   apiares: 'Spis pasiek',
   search: 'Szukaj'
 };

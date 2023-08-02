@@ -1,5 +1,21 @@
 export default {
   welcome: 'Welcome to our application!',
+  register: {
+    username: 'First an last name',
+    password: 'Password',
+    submit: 'Log',
+    title: 'Registration',
+    label: {
+      email: 'Your email *',
+      password: 'Password *',
+      name: 'First an last name *'
+    },
+    rules: {
+      email: 'Please enter email',
+      password: 'Please enter password',
+      name: 'Please enter data'
+    }
+  },
   login: {
     username: 'Username',
     password: 'Password',

@@ -1,49 +1,87 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { defineStore } from 'pinia';
-import { DataChart, InitChart } from '../interfaces/apiary';
-import { i18n } from '../boot/i18n';
-
+// import { DataChart, InitChart } from '../interfaces/apiary';
+// import { i18n } from '../boot/i18n';
+import { setToken } from '../utils/setToken';
 interface State {
   counter: number;
   errorLogin: boolean;
+  isAuthenticated: boolean;
 }
 export const useAuth = defineStore('auth', {
   state: (): State => ({
     counter: 0,
-    errorLogin: false
+    errorLogin: false,
+    isAuthenticated: false
   }),
   getters: {
     doubleCount: (state) => state.counter * 2
   },
   actions: {
     async LoginUser(dataUser) {
-      // const dataa = JSON.stringify({
-      //   email: 'justa@wp.pl',
-      //   password: 'password'
-      // });
+      const user = JSON.stringify({
+        email: 'pp6@wp.pl',
+        password: 'pierwszeprobne'
+      });
+      const config = { headers: { 'content-type': 'application/json' } };
+
       try {
-        const data = await axios.post('http://localhost:3000/login', dataUser);
+        const data = await axios.post(
+          'http://localhost:5000/api/apiary/auth',
+          dataUser,
+          config
+        );
         if (data) {
           console.log('datalogin', data, dataUser);
           this.errorLogin = false;
+          this.isAuthenticated = true;
+          localStorage.setItem('token', data.data.token);
+          if (localStorage.getItem('token')) {
+            setToken(localStorage.getItem('token'));
+          }
+          // localStorage.setItem('token', data);
         }
       } catch (error) {
         console.log('errorlogin', error);
         this.errorLogin = true;
+        this.isAuthenticated = false;
       }
     },
-    async registerUser(dataNewUser) {
-      const dataa = JSON.stringify({
-        email: 'justa@wp.pl',
-        password: 'password'
-      });
+    async registerUser(newUser) {
+      // const newUser = JSON.stringify({
+      //   name: 'Przemysław O',
+      //   email: 'adam@wp.pl',
+      //   password: 'password'
+      // });
+      const config = { headers: { 'content-type': 'application/json' } };
       try {
         const data = await axios.post(
-          'http://localhost:3000/users',
-          dataNewUser
+          'http://localhost:5000/api/apiary/users',
+          JSON.stringify(newUser),
+          config
         );
         if (data) {
+          this.isAuthenticated = true;
+          console.log('data', data.data.token);
+          localStorage.setItem('token', data.data.token);
+          if (localStorage.getItem('token')) {
+            setToken(localStorage.getItem('token'));
+          }
+        }
+      } catch (error) {
+        console.log('error', error);
+      }
+    },
+    async loadData() {
+      try {
+        const data = await axios.get('http://localhost:5000/api/apiary/apiary');
+        if (data) {
           console.log('data', data);
+          // this.setAllDataApiary(data.apiary);
+          // this.dataApiary = data.data;
+          // localStorage.setItem('dataApiary', data.data);
+
+          // this.dataApiary && this.setChartApiary(this.dataApiary);
         }
       } catch (error) {
         console.log('error', error);
@@ -73,7 +111,7 @@ export const useAuth = defineStore('auth', {
     //   console.log('zzzzzzzzzzzzzzzz', sum);
 
     //   this.dataChart.labels = uniqueRowsChart;
-    //   // this.dataChart.datasets[0].label = i18n.t('countBehives');
+    //   // this.dataChart.datasets[0].label = i18n.t('countBeehives');
     //   this.dataChart.datasets[0].label = 'Liczba uli';
 
     //   this.dataChart.datasets[0].backgroundColor = '#f87979';

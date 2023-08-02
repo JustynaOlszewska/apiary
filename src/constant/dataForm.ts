@@ -1,24 +1,44 @@
-import imgUrlUnited from '../assets/images/united-kingdom.png'
-import imgUrlUnitedPoland from '../assets/images/icons8-poland-30.png'
+import imgUrlUnited from '../assets/images/united-kingdom.png';
+import imgUrlUnitedPoland from '../assets/images/icons8-poland-30.png';
 export const options = [
+  {
+    label: 'En',
+    value: 'en',
+    icon: imgUrlUnited,
+    hide: false
+  },
+  {
+    label: 'Pl',
+    value: 'pl',
+    icon: imgUrlUnitedPoland,
+    hide: false
+  },
+  {
+    label: 'DK',
+    value: 'dk',
+    icon: imgUrlUnited,
+    hide: false
+  }
+];
+export const apiary = {
+  columns: [
     {
-      label: 'En',
-      value: 'en',
-      icon: imgUrlUnited,
-      hide: false
+      name: 'desc',
+      required: true,
+      label: '',
+      align: 'left',
+      field: 'index'
     },
     {
-      label: 'Pl',
-      value: 'pl',
-      icon: imgUrlUnitedPoland,
-      hide: false
-  
+      name: 'name',
+      align: 'center',
+      label: 'Name',
+      field: 'name',
+      sortable: true
     },
-    {
-      label: 'DK',
-      value: 'dk',
-      icon: imgUrlUnited,
-      hide: false
-  
-    }
+    { name: 'address', label: 'Address', field: 'address' },
+    { name: 'type', label: 'Type', field: 'type' },
+    { name: 'sun exposure', label: 'Sun exposure', field: 'sun' },
+    { name: 'hives', label: 'Hives', field: 'hives' }
   ]
+};

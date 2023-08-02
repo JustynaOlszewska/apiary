@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/:lang',
-    component: () => import('../layouts/MainLayout.vue'),
+    component: () => import('../components/layouts/MainLayout.vue'),
     // redirect: (to) => {
     //   console.log('qqqqqqqqqqqqqqRouter111', to);
 
@@ -13,7 +13,7 @@ const routes: RouteRecordRaw[] = [
     // },
     beforeEnter(to, from, next) {
       const lang = to.params.lang;
-      const lang1 = from?.params?.lang;
+      // const lang1 = from?.params?.lang;
 
       if (!lang) {
         // i18n.locale = lang;
@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'apiaries',
         name: 'apiaries',
-        component: () => import('../components/ApiariesList.vue'),
+        component: () => import('../components/pages/ApiariesList.vue'),
         beforeEnter(to, from, next) {
           //   // const langStore = useSettingLang()
           // const lang = to.params.lang;
@@ -34,9 +34,9 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
-        path: 'behives',
-        name: 'behives',
-        component: () => import('../components/BeehivesList.vue'),
+        path: 'beehives',
+        name: 'beehives',
+        component: () => import('../components/pages/BeehivesList.vue'),
         beforeEnter(to, from, next) {
           // const langStore = useSettingLang()
           // const lang = to.params.lang
@@ -46,7 +46,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'login',
         name: 'login',
-        component: () => import('../components/login/LoginForm.vue'),
+        component: () => import('../components/auth/LoginForm.vue'),
         beforeEnter(to, from, next) {
           // const langStore = useSettingLang()
           // const lang = to.params.lang
@@ -56,7 +56,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'register',
         name: 'register',
-        component: () => import('../components/login/RegisterForm.vue'),
+        component: () => import('../components/auth/RegisterForm.vue'),
         beforeEnter(to, from, next) {
           // const langStore = useSettingLang()
           // const lang = to.params.lang

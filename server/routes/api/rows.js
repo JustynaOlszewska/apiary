@@ -3,17 +3,18 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../../../middleware/auth');
 
-const Apiary = require('../../../models/Apiary');
+const RowsSchema = require('../../../models/Rows');
 const User = require('../../../models/User');
 
 // @route    GET api/contacts
 // @desc     Get all contacts
 // @access   Private
-router.get('/apiary', auth, async (req, res) => {
+router.get('/rows', auth, async (req, res) => {
   try {
-    const contacts = await Apiary.find({ user: req.user.id }).sort({
+    const contacts = await RowsSchema.find({ user: req.user.is }).sort({
       date: -1
     });
+
     res.json(contacts);
   } catch (err) {
     console.error(err.message);
@@ -24,12 +25,17 @@ router.get('/apiary', auth, async (req, res) => {
 // @route    POST api/contacts
 // @desc     Create a contact
 // @access   Private
+// id: { type: Number },
+// name: { type: String },
+// type: { type: String },
+// hives: { type: Number },
+// iron: { type: String }
 router.post(
-  '/apiary',
+  '/rows',
   [
     auth,
     [
-      check('apiary', 'Name is required').not().isEmpty()
+      check('name', 'Name is required')
       // check('type', 'Type must be personal or professional').isIn([
       //   'personal',
       //   'professional'
@@ -42,16 +48,22 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    // const { rowsApiary } = req.body;
 
-    const { column } = req.body.apiary;
+    const { id, name, hives, type, sun, address } = req.body;
 
     try {
-      const newApiary = new Apiary({
-        column,
-        user: req.user.id
+      const newRow = new RowsSchema({
+        id,
+        name,
+        hives,
+        type,
+        sun,
+        address,
+        user: req.user.is
       });
 
-      const contact = await newApiary.save();
+      const contact = await newRow.save();
 
       res.json(contact);
     } catch (err) {
@@ -123,22 +135,3 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
-
-// const express = require('express');
-// const { MongoClient } = require('mongodb');
-// const mongoURI = require('../../../config/default.json');
-// const client = new MongoClient(mongoURI.mongoURI);
-// const router = express.Router();
-// //get apiarydata
-// router.get('/apiary', async (req, res, next) => {
-//   const db = client.db('apiary');
-//   const coll = db.collection('apiary');
-//   const cursor = coll.find();
-//   let apiaryData;
-//   await cursor.forEach((cursor) => {
-//     apiaryData = cursor;
-//   });
-//   res.send(apiaryData);
-// });
-
-// module.exports = router;

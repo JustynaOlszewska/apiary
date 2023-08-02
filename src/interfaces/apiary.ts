@@ -35,3 +35,9 @@ export interface Rows {
   protein: number;
   type: string;
 }
+export enum Pages {
+  APIARIES = 'Apiaries',
+  LOGIN = 'Login',
+  REGISTER = 'Register',
+  BEEHIVES = 'Beehives'
+}

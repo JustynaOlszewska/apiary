@@ -15,9 +15,9 @@
         "field": "name",
         "sortable": true
       },
-      { "name": "address", "label": "Address", "field": "fat" },
+      { "name": "address", "label": "Address", "field": "address" },
       { "name": "type", "label": "Type", "field": "type" },
-      { "name": "sun exposure", "label": "Sun exposure", "field": "protein" },
+      { "name": "sun exposure", "label": "Sun exposure", "field": "sun" },
       { "name": "hives", "label": "Hives", "field": "hives" }
     ],
     "rows": [

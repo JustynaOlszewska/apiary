@@ -1,5 +1,21 @@
 export default {
   welcome: 'Velkommen til vores ansøgning!',
+  register: {
+    username: 'Fornavn og efternavn',
+    password: 'Adgangskode',
+    submit: 'Log',
+    title: 'Registrering',
+    label: {
+      email: 'Din email *',
+      password: 'Adgangskode *',
+      name: 'Fornavn og efternavn *'
+    },
+    rules: {
+      email: 'Indtast venligst e-mail',
+      password: 'Indtast venligst dit kodeord',
+      name: 'Indtast venligst dit for- og efternavn'
+    }
+  },
   login: {
     username: 'brugernavn',
     password: 'Password',

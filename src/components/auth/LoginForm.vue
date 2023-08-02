@@ -1,14 +1,9 @@
 <template>
   <div class="wrapper-auth">
     <div>
-      <h4>{{ $t('login.logo') }}</h4>
-      <h5>{{ $t('login.title') }}</h5>
-      <q-form
-        @submit="onSubmit"
-        @reset="onReset"
-        class="q-gutter-md"
-        ref="myForm"
-      >
+      <h4 class="logo-title">{{ $t('login.logo') }}</h4>
+      <h2 class="auth-heading">{{ $t('login.title') }}</h2>
+      <q-form @submit="onSubmit" class="q-gutter-md" ref="myForm">
         <!-- <q-toggle
       v-model="accept"
       label="I accept the license and terms"
@@ -88,7 +83,7 @@ const i18n = useI18n();
 const authStore = useAuth();
 const email = ref(null);
 const password = ref(null);
-const accept = ref(false);
+// const accept = ref(false);
 const error = ref(false);
 const myForm = ref(null);
 const isPwd = ref(true);
@@ -125,12 +120,23 @@ function onSubmit() {
   flex-direction: column;
 }
 .flex-right {
-  display: flex;
-  justify-items: center;
-  flex-direction: column;
-  align-items: end;
+  text-align: right;
+  // display: flex;
+  // justify-items: center;
+  // flex-direction: column;
+  // align-items: end;
 }
 .margin {
   margin-top: 40px;
+}
+.auth-heading {
+  font-size: 1.5625em;
+  font-family: moderatmedium, sans-serif;
+  font-weight: 400;
+  text-align: left;
+  padding-bottom: 40px;
+}
+.logo-title {
+  padding: 40px 0;
 }
 </style>
