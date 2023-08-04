@@ -9,7 +9,6 @@
       titlePage[title]?.value && titlePage[title]?.value !== 'div' && 'active'
     " -->
   <!-- :ref="titlePage[title]" -->
-
   <div
     class="route-wrapper"
     :data-active="title"
@@ -28,19 +27,43 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, watch, computed } from 'vue';
 import { Pages } from '../interfaces/apiary';
 import { useApiary } from '../stores/apiary-store';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const i18n = useI18n();
 const apiaryStore = useApiary();
 defineEmits<{
   (e: 'getData'): void;
+  // (e: 'setLink'): void;
 }>();
 onMounted(() => {
   const currentRoute = sessionStorage.getItem('curentRoute') || Pages.LOGIN;
+  console.log('cccccccccccccccccc', currentRoute);
   setStyleActiveElement(currentRoute, true);
 });
+// const title = computed(() => {
+//   return props.title;
+// });
+watch(
+  () => route.path,
+  (newValue) => {
+    // const currentRoute = sessionStorage.getItem('curentRoute') || Pages.LOGIN;
+
+    const currentRoute =
+      newValue.includes(props.title.toLocaleLowerCase()) && props.title;
+    setStyleActiveElement(currentRoute, false);
+  }
+);
 const setStyleActiveElement = (title: string, init?: boolean) => {
+  apiaryStore.setCurrentLang(sessionStorage.getItem('currentLang'));
+  // console.log('watch', props.title);
+
   const groupElement = [...document.querySelectorAll('[data-active]')];
+
   groupElement.forEach((el) => {
     if (title === props.title && el.getAttribute('data-active') === title) {
       el.classList.add('active');

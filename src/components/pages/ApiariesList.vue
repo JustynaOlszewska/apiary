@@ -45,7 +45,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
             <q-select
               square
               outlined
-              ref="elementSelectApiary"
+              ref="refSelectApiary"
               v-model="selectApiary"
               :options="covertedDataApiaryForSelect"
               @update:model-value="(value) => selectDataApiary(value)"
@@ -54,8 +54,6 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
             <q-btn label="REset" @click.stop.prevent="resetSelectedData" />
           </template>
         </q-table>
-        <!-- <p>//{{ preperedDataApiary }}</p>
-        <p>//dataApiary{{ dataApiary }}</p> -->
       </div>
     </div>
     <ChartApriaries />
@@ -77,7 +75,7 @@ const filter = ref('');
 // const loading = ref(false);
 const tableRef = ref(null);
 const selectApiary = ref(null);
-const elementSelectApiary = ref<HTMLInputElement | null>(null);
+const refSelectApiary = ref<HTMLInputElement | null>(null);
 const columns = apiary.columns;
 // const navigationActive = ref(false);
 onMounted(() => {
@@ -92,18 +90,22 @@ onMounted(() => {
   // apiaryStore.setAllDataApiary(JSON.parse(r));
 });
 const resetSelectedData = () => {
+  console.log('zzzzzzzzzzzzzzz', preperedDataApiary.value, selectApiary.value);
+  preperedDataApiary.value = dataApiary.value;
   selectApiary.value = null;
+  // selectDataApiary(null);
+  console.log(
+    'zzzzzzzzzzzzzzzAFTER',
+    preperedDataApiary.value,
+    selectApiary.value
+  );
 };
 const covertedDataApiaryForSelect = computed(() => {
   const preperedDataApiary = cloneDeep(dataApiary.value)?.map((apiary) => {
     // apiary.label = apiary.name
     return { label: apiary.name, id: apiary.id };
   });
-  console.log(
-    'qqqqqqqqqqqqqqqqq',
-    cloneDeep(dataApiary.value),
-    dataApiary.value
-  );
+
   return preperedDataApiary;
 });
 const pagination = ref({});

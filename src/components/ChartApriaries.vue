@@ -1,12 +1,9 @@
 <template>
   <div>
     <h5>{{ $t('chartTitle') }}</h5>
-    <p>//{{ dataChart }}</p>
-    <p>//{{ options }}</p>
     <div style="width: 80%">
       <Bar :data="dataChart" :options="options" v-if="loaded" />
     </div>
-    <!-- <Line :data="data" /> -->
   </div>
 </template>
 <script setup lang="ts">

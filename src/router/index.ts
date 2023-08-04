@@ -7,7 +7,7 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
-import { i18n } from '../boot/i18n';
+// import { i18n } from '../boot/i18n';
 // import { useAuth } from '../stores/auth-store';
 
 /*
@@ -34,44 +34,20 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.VUE_ROUTER_BASE)
   });
-  // Router.afterEach(to, from, next) {
-  //   const lang = to.params.lang;
-  //   // const lang = from.params.lang;
-  //   console.log('qqqqqqqqqqqqqqRouter111', lang, from.params.lang);
-
-  //   if (!lang) {
-  //     // i18n.locale = lang;
-  //     return next(lang);
-  //   }
-  //   return next();
-  //   }
 
   Router.beforeEach((to, from, next) => {
-    // const authStore = useAuth();
-
     const langFroom = from.params.lang;
     const lang = to?.params?.lang;
-    // const publicPages = ['login'];
-    console.log(
-      'qqqqqqqqqqqqqqRouter111fff',
-      lang,
-      localStorage.getItem('token')
-    );
-    // i18n.global.locale?.value
-    // if (!localStorage.getItem('token') && lang) {
-    //   return next('en/login');
-    // } else
-    if (!lang) {
-      return next('pl/login');
-    }
-    // Router.replace({ params: { lang: 'en' } });
-    else if (langFroom !== lang) {
-      i18n.locale = langFroom;
-    }
 
-    // else {
+    if (!lang) {
+      sessionStorage.setItem('currentLang', 'pl');
+
+      return next('pl/login');
+    } else if (lang && !langFroom) {
+      sessionStorage.setItem('currentLang', lang);
+      return next();
+    }
     next();
-    // }
   });
   return Router;
 });

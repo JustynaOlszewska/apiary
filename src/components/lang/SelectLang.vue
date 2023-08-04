@@ -38,9 +38,10 @@
 import { ref, watch, computed, onMounted } from 'vue';
 import { options } from '../../constant/dataForm';
 import { ModelValueLang } from '../../interfaces/form';
-import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useApiary } from '../../stores/apiary-store';
+import { useI18n } from 'vue-i18n';
+
 const apiaryStore = useApiary();
 
 const i18n = useI18n();
@@ -49,14 +50,12 @@ const backgroundColorInInput = ref<boolean>(false);
 const dropdownVisible = ref<HTMLElement | null>(null);
 
 const lang = computed(() => {
-  const currentLang = sessionStorage.getItem('currentLang');
-  // return currentLang || i18n.locale.value;
-  return currentLang;
+  return (
+    sessionStorage.getItem('currentLang')?.toUpperCase() ||
+    i18n?.locale?.value.toUpperCase()
+  );
 });
-const defaultLang = computed(() => {
-  return options.find((el) => el.value === lang.value);
-});
-const model = ref<ModelValueLang | undefined>(defaultLang.value);
+const model = ref<ModelValueLang | undefined>(lang.value);
 
 const onFocusInput = () => {
   backgroundColorInInput.value = !backgroundColorInInput.value;
@@ -69,10 +68,8 @@ onMounted(() => {
       el.hide = false;
     }
   });
-  if (i18n.locale) {
+  if (i18n?.locale) {
     const currentLang = sessionStorage.getItem('currentLang');
-    // i18n.locale.value = currentLang || router.currentRoute.value.params.lang;
-
     i18n.locale.value = currentLang;
   }
 });
@@ -88,7 +85,7 @@ watch(
         }
       });
       i18n.locale.value = newValue.value;
-      apiaryStore.setCurrentLang(newValue.value);
+      apiaryStore.setCurrentLang(newValue.value.toUpperCase());
       router.replace({ params: { lang: newValue.value } });
       backgroundColorInInput.value = false;
     }

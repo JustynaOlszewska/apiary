@@ -2,13 +2,13 @@ import imgUrlUnited from '../assets/images/united-kingdom.png';
 import imgUrlUnitedPoland from '../assets/images/icons8-poland-30.png';
 export const options = [
   {
-    label: 'En',
+    label: 'EN',
     value: 'en',
     icon: imgUrlUnited,
     hide: false
   },
   {
-    label: 'Pl',
+    label: 'PL',
     value: 'pl',
     icon: imgUrlUnitedPoland,
     hide: false

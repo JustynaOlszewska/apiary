@@ -19,10 +19,10 @@ export const useAuth = defineStore('auth', {
   },
   actions: {
     async LoginUser(dataUser) {
-      const user = JSON.stringify({
-        email: 'pp6@wp.pl',
-        password: 'pierwszeprobne'
-      });
+      // const user = JSON.stringify({
+      //   email: 'pp6@wp.pl',
+      //   password: 'pierwszeprobne'
+      // });
       const config = { headers: { 'content-type': 'application/json' } };
 
       try {
@@ -35,11 +35,11 @@ export const useAuth = defineStore('auth', {
           console.log('datalogin', data, dataUser);
           this.errorLogin = false;
           this.isAuthenticated = true;
-          localStorage.setItem('token', data.data.token);
-          if (localStorage.getItem('token')) {
-            setToken(localStorage.getItem('token'));
+          sessionStorage.setItem('token', data.data.token);
+          if (sessionStorage.getItem('token')) {
+            setToken(sessionStorage.getItem('token'));
           }
-          // localStorage.setItem('token', data);
+          // sessionStorage.setItem('token', data);
         }
       } catch (error) {
         console.log('errorlogin', error);
@@ -63,9 +63,9 @@ export const useAuth = defineStore('auth', {
         if (data) {
           this.isAuthenticated = true;
           console.log('data', data.data.token);
-          localStorage.setItem('token', data.data.token);
-          if (localStorage.getItem('token')) {
-            setToken(localStorage.getItem('token'));
+          sessionStorage.setItem('token', data.data.token);
+          if (sessionStorage.getItem('token')) {
+            setToken(sessionStorage.getItem('token'));
           }
         }
       } catch (error) {

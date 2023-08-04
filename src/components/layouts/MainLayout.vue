@@ -22,15 +22,15 @@
     >
       <q-list>
         <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
+          v-for="link in apiaryStore.essentialLinks"
+          :key="link.link"
           :title="link.title"
           v-bind="link"
           @get-data="apiaryStore.getInitApiaryData"
         />
       </q-list>
     </q-drawer>
-
+    <!-- @set-link="setLangInLink" -->
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -41,13 +41,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import EssentialLink from '../EssentialLink.vue';
 import SelectLang from '../lang/SelectLang.vue';
-import { useI18n } from 'vue-i18n';
+// import { useI18n } from 'vue-i18n';
 import { useApiary } from '../../stores/apiary-store';
-const apiaryStore = useApiary();
+import { useI18n } from 'vue-i18n';
+
 const i18n = useI18n();
+const apiaryStore = useApiary();
+// const i18n = useI18n();
 
 const leftDrawerOpen = ref(true);
 //zastąpione drawerClick
@@ -55,12 +58,12 @@ const leftDrawerOpen = ref(true);
 //   leftDrawerOpen.value = !leftDrawerOpen.value;
 // }
 const miniState = ref(false);
-const titlePage = ref([]);
-onMounted(() => {
-  titlePage.value.map((el) => {
-    // el.has;
-  });
-});
+// const titlePage = ref([]);
+// onMounted(() => {
+//   titlePage.value.map((el) => {
+//     // el.has;
+//   });
+// });
 const drawerClick = (e) => {
   if (miniState.value) {
     miniState.value = false;
@@ -69,33 +72,70 @@ const drawerClick = (e) => {
     miniState.value = true;
   }
 };
-
-const essentialLinks: any[] = [
-  {
-    title: 'Apiaries',
-    caption: 'quasar.dev',
-    icon: 'signpost',
-    link: `/${i18n.locale.value}/apiaries`
-  },
-  {
-    title: 'Beehives',
-    caption: 'github.com/quasarframework',
-    icon: 'inventory_2',
-    link: `/${i18n.locale.value}/beehives`
-  },
-  {
-    title: 'Login',
-    caption: 'github.com/quasarframework',
-    icon: 'inventory_2',
-    link: `/${i18n.locale.value}/login`
-  },
-  {
-    title: 'Register',
-    caption: 'github.com/quasarframework',
-    icon: 'inventory_2',
-    link: `/${i18n.locale.value}/register`
+// const essentialLinks: any[] = [
+//   {
+//     title: 'Apiaries',
+//     caption: 'quasar.dev',
+//     icon: 'signpost',
+//     link: `/${sessionStorage
+//       .getItem('currentLang')
+//       ?.toLocaleLowerCase()}/apiaries`
+//   },
+//   {
+//     title: 'Beehives',
+//     caption: 'github.com/quasarframework',
+//     icon: 'inventory_2',
+//     link: `/${sessionStorage
+//       .getItem('currentLang')
+//       ?.toLocaleLowerCase()}/beehives`
+//   },
+//   {
+//     title: 'Login',
+//     caption: 'github.com/quasarframework',
+//     icon: 'inventory_2',
+//     link: `/${sessionStorage.getItem('currentLang')?.toLocaleLowerCase()}/login`
+//   },
+//   {
+//     title: 'Register',
+//     caption: 'github.com/quasarframework',
+//     icon: 'inventory_2',
+//     link: `/${sessionStorage
+//       .getItem('currentLang')
+//       ?.toLocaleLowerCase()}/register`
+//   }
+// ];
+// const currentLang = computed(() => {
+//   return sessionStorage.getItem('currentLang');
+// });
+// watch(
+//   () => [currentLang.value],
+//   (newValue) => {
+//     console.log('watch', newValue);
+//   }
+// );
+// const setLangInLink = (link) => {
+//   // nextTick();
+//   console.log(
+//     'link',
+//     link,
+//     i18n.locale.value,
+//     sessionStorage.getItem('currentLang')?.toLocaleLowerCase()
+//   );
+//   apiaryStore.essentialLinks.forEach((el) => {
+//     el.link = `/${sessionStorage.getItem('currentLang')?.toLocaleLowerCase()}/${
+//       el.route
+//     }`;
+//   });
+// };
+watch(
+  () => i18n.locale.value,
+  (newValue) => {
+    console.log('watch', newValue);
+    apiaryStore.essentialLinks.forEach((el) => {
+      el.link = `/${newValue}/${el.route}`;
+    });
   }
-];
+);
 </script>
 <style lag="scss" scoped>
 :deep(.q-field__inner .relative-position .col .self-stretch) {

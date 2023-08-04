@@ -12,6 +12,7 @@ interface State {
   dataChart: DataChart;
   status: any;
   loading: boolean;
+  essentialLinks: any;
 }
 export const useApiary = defineStore('apiary', {
   state: (): State => ({
@@ -35,7 +36,38 @@ export const useApiary = defineStore('apiary', {
       success: false,
       pending: false
     },
-    loading: false
+    loading: false,
+    essentialLinks: [
+      {
+        title: 'Apiaries',
+        caption: 'quasar.dev',
+        icon: 'signpost',
+        link: '/pl/apiaries',
+        route: 'apiaries'
+      },
+      {
+        title: 'Beehives',
+        caption: 'github.com/quasarframework',
+        icon: 'inventory_2',
+        link: '/pl/beehives',
+        route: 'beehives'
+      },
+      {
+        title: 'Login',
+        caption: 'github.com/quasarframework',
+        icon: 'inventory_2',
+        link: '/pl/login',
+        route: 'login'
+      },
+      {
+        title: 'Register',
+        caption: 'github.com/quasarframework',
+        icon: 'inventory_2',
+        link: '/pl/register',
+
+        route: 'register'
+      }
+    ]
   }),
   getters: {
     doubleCount: (state) => state.counter * 2
@@ -53,14 +85,14 @@ export const useApiary = defineStore('apiary', {
       this.status[newStatus.key] = newStatus.value;
     },
     async getInitApiaryData() {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       console.log('toke', token);
       const config = {
         headers: {
           'x-auth-token': token
         }
       };
-      if (localStorage.getItem('token')) {
+      if (sessionStorage.getItem('token')) {
         try {
           // this.loading = true;
           const data = await getAsync({
@@ -79,13 +111,14 @@ export const useApiary = defineStore('apiary', {
         }
       } else {
         console.log(
-          'qqqqqqqqqqq',
-          localStorage.getItem('token'),
-          i18n.global.locale?.value || i18n.locale.value
+          'rrrrrrrrrrrrrrrrrrrr',
+          i18n?.global?.locale?.value,
+          i18n.global.locale?.value,
+          sessionStorage.getItem('currentLang')
         );
-
         this.router.push({
-          path: `/${i18n.global.locale?.value || i18n.locale.value}/login`
+          path: `/${sessionStorage.getItem('currentLang')?.toLowerCase()}/login`
+          // path: `/${i18n.global.locale?.value}/login`
         });
       }
     },
