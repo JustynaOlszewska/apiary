@@ -17,6 +17,19 @@ const routes: RouteRecordRaw[] = [
           return next();
         }
       },
+      // children: [
+      {
+        path: 'apiaries/create',
+        name: 'create',
+        component: () =>
+          import('../components/pages/childrens/CreateApiary.vue')
+        // beforeEnter(to, from, next) {
+        //   return next();
+        // }
+        // }
+        // ]
+      },
+
       {
         path: 'beehives',
         name: 'beehives',

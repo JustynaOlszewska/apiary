@@ -10,6 +10,8 @@
           aria-label="Menu"
           @click="drawerClick"
         />
+        <!-- <h3 style="color: black">Tu będzie dynamiczny nagłówek</h3> -->
+
         <SelectLang />
       </q-toolbar>
     </q-header>
@@ -114,5 +116,11 @@ watch(
 
 :deep(.q-list) {
   margin-top: 20px;
+}
+:deep(.q-toolbar__title) {
+  background-color: white;
+  position: absolute;
+  right: 0;
+  width: 96.5%;
 }
 </style>

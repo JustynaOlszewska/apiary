@@ -52,6 +52,9 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               label="Square outlined"
             />
             <q-btn label="REset" @click.stop.prevent="resetSelectedData" />
+            <router-link :to="`/${i18n.locale.value}/apiaries/create`"
+              ><q-btn label="Create"
+            /></router-link>
           </template>
         </q-table>
       </div>
@@ -65,8 +68,10 @@ import { ref, toRefs, onMounted, computed } from 'vue';
 import { useApiary } from '../../stores/apiary-store';
 import ChartApriaries from '../ChartApriaries.vue';
 import { apiary } from '../../constant/dataForm';
-import { useI18n } from 'vue-i18n';
 import { cloneDeep } from 'lodash';
+import { useI18n } from 'vue-i18n';
+
+const i18n = useI18n();
 const { t } = useI18n();
 
 const apiaryStore = useApiary();

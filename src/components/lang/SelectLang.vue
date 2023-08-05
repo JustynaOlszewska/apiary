@@ -98,4 +98,7 @@ watch(
 .closed-options {
   background-color: goldenrod;
 }
+.row {
+  justify-content: end;
+}
 </style>
