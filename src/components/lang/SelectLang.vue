@@ -49,17 +49,18 @@ const router = useRouter();
 const backgroundColorInInput = ref<boolean>(false);
 const dropdownVisible = ref<HTMLElement | null>(null);
 
-const lang = computed(() => {
+const defaultLang = computed(() => {
   return (
     sessionStorage.getItem('currentLang')?.toUpperCase() ||
     i18n?.locale?.value.toUpperCase()
   );
 });
-const model = ref<ModelValueLang | undefined>(lang.value);
+const model = ref<string | undefined>(defaultLang.value);
 
 const onFocusInput = () => {
   backgroundColorInInput.value = !backgroundColorInInput.value;
 };
+
 onMounted(() => {
   options?.forEach((el) => {
     if (el.value === router.currentRoute.value.params.lang) {
@@ -74,7 +75,7 @@ onMounted(() => {
   }
 });
 watch(
-  () => model.value as ModelValueLang,
+  () => model.value as string,
   (newValue: ModelValueLang) => {
     if (newValue) {
       options.forEach((el) => {

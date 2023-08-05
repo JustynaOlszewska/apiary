@@ -31,6 +31,7 @@
       </q-list>
     </q-drawer>
     <!-- @set-link="setLangInLink" -->
+
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -72,38 +73,7 @@ const drawerClick = (e) => {
     miniState.value = true;
   }
 };
-// const essentialLinks: any[] = [
-//   {
-//     title: 'Apiaries',
-//     caption: 'quasar.dev',
-//     icon: 'signpost',
-//     link: `/${sessionStorage
-//       .getItem('currentLang')
-//       ?.toLocaleLowerCase()}/apiaries`
-//   },
-//   {
-//     title: 'Beehives',
-//     caption: 'github.com/quasarframework',
-//     icon: 'inventory_2',
-//     link: `/${sessionStorage
-//       .getItem('currentLang')
-//       ?.toLocaleLowerCase()}/beehives`
-//   },
-//   {
-//     title: 'Login',
-//     caption: 'github.com/quasarframework',
-//     icon: 'inventory_2',
-//     link: `/${sessionStorage.getItem('currentLang')?.toLocaleLowerCase()}/login`
-//   },
-//   {
-//     title: 'Register',
-//     caption: 'github.com/quasarframework',
-//     icon: 'inventory_2',
-//     link: `/${sessionStorage
-//       .getItem('currentLang')
-//       ?.toLocaleLowerCase()}/register`
-//   }
-// ];
+
 // const currentLang = computed(() => {
 //   return sessionStorage.getItem('currentLang');
 // });
