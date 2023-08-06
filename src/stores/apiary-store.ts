@@ -4,7 +4,7 @@ import { DataChart } from '../interfaces/apiary';
 // import { useI18n } from 'vue-i18n';
 // import { I18n } from '../../node_modules/vue-i18n';
 
-import { getAsync } from '../asyncAxios';
+import { getAsync, postAsync } from '../asyncAxios';
 import { i18n } from '../boot/i18n';
 interface State {
   counter: number;
@@ -86,7 +86,6 @@ export const useApiary = defineStore('apiary', {
     },
     async getInitApiaryData() {
       const token = sessionStorage.getItem('token');
-      console.log('toke', token);
       const config = {
         headers: {
           'x-auth-token': token
@@ -118,8 +117,53 @@ export const useApiary = defineStore('apiary', {
         );
         this.router.push({
           path: `/${sessionStorage.getItem('currentLang')?.toLowerCase()}/login`
-          // path: `/${i18n.global.locale?.value}/login`
         });
+      }
+    },
+    async addApiaryData() {
+      const token = sessionStorage.getItem('token');
+
+      const config = {
+        headers: {
+          'x-auth-token': token
+        }
+      };
+      const data = {
+        name: 'Testowy rzszerzony',
+        id: 12,
+        address: 'Kadyny',
+        type: 'Warszawskie poszerzane',
+        sun: 3.9,
+        hives: 327,
+        forages: 'colza',
+        description: 'Opis najważnijszych cech pasieki',
+        zip: '82-300',
+        city: 'Słupsk',
+        state: 'Warmińsko-mazurskie',
+        country: 'Polska',
+        latitude: '123456',
+        longitude: '12345'
+      };
+      if (sessionStorage.getItem('token')) {
+        try {
+          // this.loading = true;
+          const r = await postAsync({
+            url: 'http://localhost:5000/api/apiary/rows',
+            payload: data,
+            setStatus: this.setStatus,
+            config
+          });
+          console.log('toke', r);
+
+          if (r) {
+            // this.setAllDataApiary(data);
+            this.loading = false;
+          }
+        } catch (error) {
+          this.loading = false;
+
+          console.log('error', error);
+        }
       }
     },
     // async getListApiary() {

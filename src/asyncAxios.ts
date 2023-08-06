@@ -9,11 +9,15 @@ export const postAsync = async <T>(params: {
     key: keyof Response;
     value: Response[keyof Response];
   }) => void;
+  config: any;
 }) => {
   params.setStatus({ key: 'pending', value: true });
 
   try {
-    const response = await api.post(params.url, params.payload);
+    const api = axios.create({
+      baseURL: import.meta.env.VITE_AXIOS_BASE_URL
+    });
+    const response = await api.post(params.url, params.payload, params.config);
 
     params.setStatus({ key: 'pending', value: false });
     params.setStatus({ key: 'error', value: { value: false, message: '' } });
@@ -68,7 +72,6 @@ export const getAsync = async (params: {
   const api = axios.create({
     baseURL: import.meta.env.VITE_AXIOS_BASE_URL
   });
-  console.log('qqqqqqqqqqqqqqqqqqqqqqqqqq', api)
   params.setStatus({ key: 'pending', value: true });
 
   try {
