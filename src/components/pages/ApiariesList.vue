@@ -55,6 +55,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
             <router-link :to="`/${i18n.locale.value}/apiaries/create`"
               ><q-btn label="Create"
             /></router-link>
+            <q-btn label="Refresh" @click="apiaryStore.getInitApiaryData" />
           </template>
         </q-table>
       </div>

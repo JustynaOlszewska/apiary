@@ -8,11 +8,20 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
   plugins: [vue()],
   resolve: {
-    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue', '.d.ts']
+    extensions: [
+      '.mjs',
+      '.js',
+      '.ts',
+      '.jsx',
+      '.tsx',
+      '.json',
+      '.vue',
+      '.d.ts'
+    ],
 
-    //     alias: {
-    //       '@': fileURLToPath(new URL('./src/', import.meta.url))
-    //     }
+    alias: {
+      '@': fileURLToPath(new URL('./src/', import.meta.url))
+    }
   }
 });
 
