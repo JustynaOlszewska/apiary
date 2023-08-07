@@ -28,8 +28,8 @@
 
 <script setup lang="ts">
 import { onMounted, watch } from 'vue';
-import { Pages } from '../interfaces/apiary';
-import { useApiary } from '../stores/apiary-store';
+import { Pages } from '@interfaces/apiary';
+import { useApiary } from '@stores/apiary-store';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();

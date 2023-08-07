@@ -1,5 +1,5 @@
-import imgUrlUnited from '../assets/images/united-kingdom.png';
-import imgUrlUnitedPoland from '../assets/images/icons8-poland-30.png';
+import imgUrlUnited from '@assets/images/united-kingdom.png';
+import imgUrlUnitedPoland from '@assets/images/icons8-poland-30.png';
 export const options = [
   {
     label: 'EN',

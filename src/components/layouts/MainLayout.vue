@@ -45,15 +45,13 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import EssentialLink from '../EssentialLink.vue';
-import SelectLang from '../lang/SelectLang.vue';
-// import { useI18n } from 'vue-i18n';
-import { useApiary } from '../../stores/apiary-store';
+import EssentialLink from '@components/EssentialLink.vue';
+import SelectLang from '@components//lang/SelectLang.vue';
+import { useApiary } from '@stores/apiary-store';
 import { useI18n } from 'vue-i18n';
 
 const i18n = useI18n();
 const apiaryStore = useApiary();
-// const i18n = useI18n();
 
 const leftDrawerOpen = ref(true);
 //zastąpione drawerClick

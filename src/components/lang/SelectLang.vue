@@ -36,10 +36,10 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onMounted } from 'vue';
-import { options } from '../../constant/dataForm';
-import { ModelValueLang } from '../../interfaces/form';
+import { options } from '@constant/dataForm';
+import { ModelValueLang } from '@interfaces/form';
 import { useRouter } from 'vue-router';
-import { useApiary } from '../../stores/apiary-store';
+import { useApiary } from '@stores/apiary-store';
 import { useI18n } from 'vue-i18n';
 
 const apiaryStore = useApiary();

@@ -66,9 +66,9 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
 
 <script setup lang="ts">
 import { ref, toRefs, onMounted, computed } from 'vue';
-import { useApiary } from '../../stores/apiary-store';
-import ChartApriaries from '../ChartApriaries.vue';
-import { apiary } from '../../constant/dataForm';
+import { useApiary } from '@stores/apiary-store';
+import ChartApriaries from '@components/ChartApriaries.vue';
+import { apiary } from '@constant/dataForm';
 import { cloneDeep } from 'lodash';
 import { useI18n } from 'vue-i18n';
 

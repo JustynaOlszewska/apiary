@@ -53,10 +53,13 @@ module.exports = configure(function (/* ctx */) {
         browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
         node: 'node16'
       },
-      // alias: {
-      // myalias: path.join(__dirname, './src/components'),
-      // myalias: path.join(__dirname, './src/constant')
-      // },
+      alias: {
+        '@components': path.join(__dirname, './src/components'),
+        '@constant': path.join(__dirname, './src/constant'),
+        '@stores': path.join(__dirname, './src/stores'),
+        '@interfaces': path.join(__dirname, './src/interfaces'),
+        '@assets': path.join(__dirname, './src/assets')
+      },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,

@@ -9,8 +9,8 @@
 <script setup lang="ts">
 import { toRefs, ref, onMounted } from 'vue';
 import { Bar } from 'vue-chartjs';
-import { data, options } from '../components/chartData';
-import { useApiary } from '../stores/apiary-store';
+import { data, options } from '@components/chartData';
+import { useApiary } from '@stores/apiary-store';
 const apiaryStore = useApiary();
 const { dataChart } = toRefs(apiaryStore);
 import {

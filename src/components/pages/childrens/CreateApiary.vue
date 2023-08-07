@@ -77,11 +77,10 @@
       </div>
     </q-scroll-area>
   </div>
-  <!-- </div> -->
 </template>
 
 <script setup lang="ts">
-import { useApiary } from '../../../stores/apiary-store';
+import { useApiary } from '@stores/apiary-store';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

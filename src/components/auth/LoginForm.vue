@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useAuth } from '../../stores/auth-store';
+import { useAuth } from '@stores/auth-store';
 import { useI18n } from 'vue-i18n';
 
 const i18n = useI18n();

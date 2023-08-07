@@ -3,23 +3,15 @@
   "baseUrl": "./",
   "allowJs": true,
   "compilerOptions": {
-    "lib": ["es5", "es6", "dom", "dom.iterable"]
-    // "types": [
-    //   // ... your other types
-    //   "node"
-    // ],
-    // "baseUrl": ".",
-    // "paths": {
-    //   "@/*": ["src/*"]
-    //   // "@components/*": ["src/components/*"],
-    //   // "@assets/*": ["src/assets/*"],
-    //   // "@constant/*": ["src/constant/*"]
-    // }
+    "lib": ["es5", "es6", "dom", "dom.iterable"],
+    "paths": {
+      "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@constant/*": ["./src/constant/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@interfaces/*": ["./src/interfaces/*"]
+    }
   },
-  // "include": [
-  //   "src/**/*",
-  //   "lodash.d.ts" // declaration file path
-  // ]
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
@@ -27,7 +19,4 @@
     "src/**/*.vue",
     "lodash.d.ts"
   ]
-
-  // "include": ["src"]
-  // "references": [{ "path": "./tsconfig.node.json" }]
 }
