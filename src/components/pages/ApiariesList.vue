@@ -86,7 +86,20 @@ const columns = apiary.columns;
 // const navigationActive = ref(false);
 onMounted(() => {
   // loading.value = true;
-  localStorage.getItem('dataApiary');
+  console.log(
+    'qqqqqqqqqqqqqqqqqqqqqqqqq',
+    JSON.parse(sessionStorage.getItem('dataApiary'))
+  );
+  if (sessionStorage.getItem('dataApiary')) {
+    // apiaryStore.dataApiary = JSON.parse(sessionStorage.getItem('dataApiary'));
+    apiaryStore.setAllDataApiary(
+      JSON.parse(sessionStorage.getItem('dataApiary'))
+    );
+    // apiaryStore.setChartApiary(
+    //   JSON.parse(sessionStorage.getItem('chartApiary'))
+    // );
+  }
+
   selectDataApiary();
   // if (data) {
   //   loading.value = false;
@@ -100,14 +113,9 @@ const resetSelectedData = () => {
   preperedDataApiary.value = dataApiary.value;
   selectApiary.value = null;
   // selectDataApiary(null);
-  console.log(
-    'zzzzzzzzzzzzzzzAFTER',
-    preperedDataApiary.value,
-    selectApiary.value
-  );
 };
 const covertedDataApiaryForSelect = computed(() => {
-  const preperedDataApiary = cloneDeep(dataApiary.value)?.map((apiary) => {
+  const preperedDataApiary = cloneDeep(dataApiary.value).map((apiary) => {
     // apiary.label = apiary.name
     return { label: apiary.name, id: apiary.id };
   });

@@ -186,8 +186,9 @@ export const useApiary = defineStore('apiary', {
         el.index = index + 1;
       });
       this.dataApiary = data;
+
       this.setChartApiary(data);
-      localStorage.setItem('dataApiary', JSON.stringify(data));
+      sessionStorage.setItem('dataApiary', JSON.stringify(data));
     },
     // : Pick<InitChart, 'rows'>
     setChartApiary(data) {
@@ -207,6 +208,8 @@ export const useApiary = defineStore('apiary', {
       console.log('zzzzzzzzzzzzzzzz', sum);
 
       this.dataChart.labels = uniqueRowsChart;
+      console.log('zzzzzzzzzzzzzzzz2', this.dataChart.labels);
+
       // this.dataChart.datasets[0].label = i18n.t('countBeehives');
       this.dataChart.datasets[0].label = 'Liczba uli';
 

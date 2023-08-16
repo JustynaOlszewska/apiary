@@ -4,7 +4,6 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/:lang',
     component: () => import('../components/layouts/MainLayout.vue'),
-
     beforeEnter(to, from, next) {
       return next();
     },
@@ -29,7 +28,6 @@ const routes: RouteRecordRaw[] = [
         // }
         // ]
       },
-
       {
         path: 'beehives',
         name: 'beehives',

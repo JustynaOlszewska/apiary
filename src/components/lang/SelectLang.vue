@@ -96,7 +96,7 @@ watch(
 
 <style scoped>
 .closed-options {
-  background-color: goldenrod;
+  background-color: #ffb74d;
 }
 .row {
   justify-content: end;

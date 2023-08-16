@@ -1,21 +1,12 @@
 <template>
-  <!-- <p>//{{ titlePage }}</p> -->
-  <!-- <p>//{{ title }}</p>
-  <p>//{{ active }}</p>
-  <p>//{{ active === title }}</p> -->
-  <!-- <p>//{{ titlePage[title].value.value }}</p> -->
-  <!-- :class="active === title ? 'active' : 'not-active'" -->
-  <!-- :class="
-      titlePage[title]?.value && titlePage[title]?.value !== 'div' && 'active'
-    " -->
-  <!-- :ref="titlePage[title]" -->
-  <!-- @click="setStyleActiveElement(title)" -->
-
   <Transition>
     <div class="route-wrapper" :data-active="title">
       <router-link
         :to="link"
-        @click="title === Pages.APIARIES && $emit('getData')"
+        @click="
+          title === Pages.APIARIES && $emit('getData');
+          show = !show;
+        "
         class="text-link"
       >
         <q-item-section avatar>
@@ -27,13 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from 'vue';
+import { onMounted, watch, ref } from 'vue';
 import { Pages } from '@interfaces/apiary';
 import { useApiary } from '@stores/apiary-store';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const apiaryStore = useApiary();
+const show = ref(true);
 defineEmits<{
   (e: 'getData'): void;
 }>();
@@ -92,6 +84,9 @@ const props = withDefaults(defineProps<EssentialLinkProps>(), {
   width: 37px;
   min-width: 37px;
 }
+// :deep(.q-ma-md) {
+//   margin-top: 0 !important;
+// }
 .route-wrapper {
   display: flex;
   width: 100%;
@@ -103,7 +98,7 @@ const props = withDefaults(defineProps<EssentialLinkProps>(), {
     display: flex;
   }
   &.active {
-    background-color: goldenrod;
+    background-color: #ffb74d;
   }
   & .avatar-icon {
     font-size: 1.3rem;
@@ -113,14 +108,17 @@ const props = withDefaults(defineProps<EssentialLinkProps>(), {
     left: 60px;
   }
 }
-:deep(.v-enter-active),
-:deep(.v-leave-active) {
-  background-color: red;
-  transition: opacity 0.5s ease;
+.v-enter-active,
+.v-leave-active {
+  // background-color: red;
+  // transition: background-color 0.5s ease;
+  transition: opacity 1.5s ease;
 }
 
-:deep(.v-enter-from),
-:deep(.v-leave-to) {
+.v-enter-from,
+.v-leave-to {
+  // background-color: green;
+
   opacity: 0;
 }
 </style>

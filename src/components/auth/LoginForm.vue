@@ -46,7 +46,7 @@
           <!-- <q-btn label="Login" type="submit" color="primary"></q-btn> -->
           <q-btn
             type="submit"
-            style="background: goldenrod; color: white; width: 180px"
+            style="background: #ffb74d; color: white; width: 180px"
             label="Login"
             size="20px"
           />

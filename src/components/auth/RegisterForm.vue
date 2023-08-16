@@ -48,7 +48,7 @@
         <div class="flex-middle">
           <q-btn
             :label="$t('register.submit')"
-            style="background: goldenrod; color: white; width: 180px"
+            style="background: #ffb74d; color: white; width: 180px"
             type="submit"
             size="20px"
           ></q-btn>

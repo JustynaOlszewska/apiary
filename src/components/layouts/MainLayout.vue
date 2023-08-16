@@ -119,6 +119,10 @@ watch(
   background-color: white;
   position: absolute;
   right: 0;
-  width: 96.5%;
+  /* width: 96.5%; */
+  left: 60px;
+}
+:deep(.q-drawer-container:not(.q-drawer--mini-animate) .q-drawer--mini) {
+  width: 60px !important;
 }
 </style>
