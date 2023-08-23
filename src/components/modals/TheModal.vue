@@ -1,38 +1,13 @@
 <template>
   <div class="modal">
     <ModalHeaderClose>
-      <ModalHeaderContent />
-      <!-- <h5>Map Coordinates</h5>
-      <section>
-        <div class="border">
-            <div class="wrapper-input">
-              <label>Latitude</label>
-              <q-input filled label="Select state." />
-            </div>
-            <div class="wrapper-input">
-              <label>Longitude</label>
-              <q-input filled label="Select country." />
-            </div>
-          </div>
-      </section>
-      <p>Click on map to mark location and get coordinates</p> -->
+      <slot></slot>
     </ModalHeaderClose>
-    <!-- <div class="modal-content">
-      <header class="header">
-        <div>
-          <h6>Map</h6>
-          <q-btn @click="$emit('update:modelValue', false)" flat class="btn"
-            >close</q-btn
-          >
-        </div>
-      </header>
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import ModalHeaderClose from '@components/modals/headersInModals/ModalHeaderClose.vue';
-import ModalHeaderContent from '@components/modals/headersInModals/ModalHeaderContent.vue';
 
 defineEmits<{
   (e: 'update:modelValue'): void;

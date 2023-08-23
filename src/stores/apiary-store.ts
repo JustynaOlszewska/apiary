@@ -1,8 +1,5 @@
-// import axios, { AxiosResponse } from 'axios';
 import { defineStore } from 'pinia';
 import { DataChart } from '../interfaces/apiary';
-// import { useI18n } from 'vue-i18n';
-// import { I18n } from '../../node_modules/vue-i18n';
 
 import { getAsync, postAsync } from '../asyncAxios';
 import { i18n } from '../boot/i18n';
@@ -75,11 +72,9 @@ export const useApiary = defineStore('apiary', {
   actions: {
     setCurrentRoute(actualPage: string) {
       sessionStorage.setItem('curentRoute', actualPage);
-      // this.currentRoute = actualPage;
     },
     setCurrentLang(lang: string) {
       sessionStorage.setItem('currentLang', lang);
-      // this.currentRoute = actualPage;
     },
     setStatus(newStatus: { key: keyof Response; value: any }) {
       this.status[newStatus.key] = newStatus.value;
@@ -120,7 +115,7 @@ export const useApiary = defineStore('apiary', {
         });
       }
     },
-    async addApiaryData() {
+    async addApiaryData(data) {
       const token = sessionStorage.getItem('token');
 
       const config = {
@@ -128,25 +123,25 @@ export const useApiary = defineStore('apiary', {
           'x-auth-token': token
         }
       };
-      const data = {
-        name: 'Testowy rzszerzony',
-        id: 12,
-        address: 'Kadyny',
-        type: 'Warszawskie poszerzane',
-        sun: 3.9,
-        hives: 327,
-        forages: 'colza',
-        description: 'Opis najważnijszych cech pasieki',
-        zip: '82-300',
-        city: 'Słupsk',
-        state: 'Warmińsko-mazurskie',
-        country: 'Polska',
-        latitude: '123456',
-        longitude: '12345'
-      };
+      // const data = {
+      //   name: 'Testowy rzszerzony',
+      //   id: 12,
+      //   address: 'Kadyny',
+      //   type: 'Warszawskie poszerzane',
+      //   sun: 3.9,
+      //   hives: 327,
+      //   forages: 'colza',
+      //   description: 'Opis najważnijszych cech pasieki',
+      //   zip: '82-300',
+      //   city: 'Słupsk',
+      //   state: 'Warmińsko-mazurskie',
+      //   country: 'Polska',
+      //   latitude: '123456',
+      //   longitude: '12345'
+      // };
       if (sessionStorage.getItem('token')) {
         try {
-          // this.loading = true;
+          this.loading = true;
           const r = await postAsync({
             url: 'http://localhost:5000/api/apiary/rows',
             payload: data,
@@ -165,6 +160,7 @@ export const useApiary = defineStore('apiary', {
           console.log('error', error);
         }
       }
+      return true;
     },
     // async getListApiary() {
     //   try {

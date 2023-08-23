@@ -3,7 +3,7 @@
     <header class="header">
       <div>
         <h6>Map</h6>
-        <q-btn @click="setModal" flat class="btn">close</q-btn>
+        <q-btn @click="() => setModal()" flat class="btn">close</q-btn>
       </div>
     </header>
     <slot></slot>

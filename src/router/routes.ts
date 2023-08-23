@@ -1,5 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 // import { i18n } from '../boot/i18n';
+import { useApiary } from '../stores/apiary-store';
+
 const routes: RouteRecordRaw[] = [
   {
     path: '/:lang',
@@ -12,7 +14,9 @@ const routes: RouteRecordRaw[] = [
         path: 'apiaries',
         name: 'apiaries',
         component: () => import('../components/pages/ApiariesList.vue'),
-        beforeEnter(to, from, next) {
+        async beforeEnter(to, from, next) {
+          const apiaryStore = useApiary();
+          await apiaryStore.getInitApiaryData();
           return next();
         }
       },

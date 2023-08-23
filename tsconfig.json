@@ -17,6 +17,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "lodash.d.ts"
+    "lodash.d.ts",
+    "*.d.ts",
+    "*.umd.js"
   ]
 }

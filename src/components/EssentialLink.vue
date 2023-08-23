@@ -1,14 +1,8 @@
 <template>
   <Transition>
     <div class="route-wrapper" :data-active="title">
-      <router-link
-        :to="link"
-        @click="
-          title === Pages.APIARIES && $emit('getData');
-          show = !show;
-        "
-        class="text-link"
-      >
+      <!-- title === Pages.APIARIES && $emit('getData'); -->
+      <router-link :to="link" @click="show = !show" class="text-link">
         <q-item-section avatar>
           <q-icon :name="icon" class="avatar-icon" /> </q-item-section
         ><span class="avatar-description">{{ title }}</span>
