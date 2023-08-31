@@ -11,7 +11,7 @@
           @click="drawerClick"
         />
         <!-- <h3 style="color: black">Tu będzie dynamiczny nagłówek</h3> -->
-
+        <h4>+ Add apiary</h4>
         <SelectLang />
       </q-toolbar>
     </q-header>

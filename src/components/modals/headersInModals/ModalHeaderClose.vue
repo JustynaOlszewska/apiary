@@ -3,7 +3,7 @@
     <header class="header">
       <div>
         <h6>Map</h6>
-        <q-btn @click="() => setModal()" flat class="btn">close</q-btn>
+        <q-btn @click="() => setModal(false)" flat class="btn">close</q-btn>
       </div>
     </header>
     <slot></slot>
@@ -23,15 +23,24 @@ const setModal = inject('modal');
     display: flex;
     justify-content: end;
     width: 100%;
-    height: 80px;
+    height: 56px;
     background-color: #ffb74d;
     & > div {
       display: flex;
       width: 50%;
       justify-content: space-between;
       align-items: center;
-      & .btn::first-letter {
+      // &.btn::first-letter {
+      //   text-transform: lowercase;
+      // }
+      & .btn {
+        font-size: 13px;
+        font-family: sans-serif;
         text-transform: lowercase;
+        & span {
+          text-transform: uppercase;
+          color: red;
+        }
       }
     }
   }

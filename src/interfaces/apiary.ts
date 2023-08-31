@@ -41,3 +41,36 @@ export enum Pages {
   REGISTER = 'Register',
   BEEHIVES = 'Beehives'
 }
+export interface InputWrapperProps {
+  type?:
+    | 'number'
+    | 'text'
+    | 'textarea'
+    | 'time'
+    | 'password'
+    | 'email'
+    | 'search'
+    | 'tel'
+    | 'file'
+    | 'url'
+    | 'date';
+  modelValue: number | string | null;
+  placeholder: string;
+  label: string;
+  options?: Array<string>;
+  append?: boolean;
+}
+export interface ButtonWrapperProps {
+  src?: string;
+  label: string;
+  click?: string | null;
+  flat?: boolean;
+  background?: string;
+  color?: string;
+  type?: string;
+  formName?: string;
+}
+export interface Coordinates {
+  lat: number;
+  lng: number;
+}

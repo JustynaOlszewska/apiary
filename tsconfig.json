@@ -3,6 +3,7 @@
   "baseUrl": "./",
   "allowJs": true,
   "compilerOptions": {
+    "useUnknownInCatchVariables": false,
     "lib": ["es5", "es6", "dom", "dom.iterable"],
     "paths": {
       "@components/*": ["./src/components/*"],
