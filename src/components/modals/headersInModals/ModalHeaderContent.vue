@@ -3,32 +3,35 @@
     <h2>Map Coordinates</h2>
     <section class="wrapper-content">
       <div class="border">
-        <div class="wrapper-input">
-          <label>Latitude</label>
-          <q-input filled label="Select state." v-model="lat" />
-        </div>
-        <div class="wrapper-input">
-          <label>Longitude</label>
-          <q-input filled label="Select country." v-model="lng" />
-        </div>
+        <InputWrapper
+          v-model="lat"
+          label="Latitude"
+          placeholder="Select state."
+        />
+        <InputWrapper
+          v-model="lng"
+          label="Longitude"
+          placeholder="Select country."
+        />
       </div>
       <MapContainer
         @set-coordinates="setCoordinates"
         :coordinates="[lat, lng]"
         class="map-margin"
       />
-      <!-- <div class="wrapper-input"> -->
-      <q-btn
-        label="setCoordiantes"
-        @click="
-          (event) => {
-            $emit('setCoordinates', { lat, lng });
-            setModal();
-          }
-        "
-      />
-
-      <!-- </div> -->
+      <div class="button-wrapper">
+        <ButtonWrapper
+          src="../../assets/images/icons8-tick-24.png"
+          label="Set Coordiantes"
+          click="click"
+          @someAction="
+            (event) => {
+              $emit('setCoordinates', { lat, lng });
+              setModal(false);
+            }
+          "
+        />
+      </div>
     </section>
     <div>Click on map to mark location and get coordinates</div>
   </div>
@@ -38,6 +41,8 @@
 import { ref } from 'vue';
 import MapContainer from '@components/maps/MapContainer.vue';
 import { inject } from 'vue';
+import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
+import InputWrapper from '@components/molecules/InputWrapper.vue';
 
 defineEmits<{
   (e: 'setCoordinates', coordinates: { lat: number; lng: number }): void;
@@ -55,10 +60,14 @@ const setCoordinates = (coordinates) => {
 <style scoped lang="scss">
 .wrapper-coordinates {
   margin: 10px 10px 10px 10px;
-  .wrapper-content {
+  & .wrapper-content {
     border: 1px solid #aaa;
     margin-bottom: 10px;
-    .map-margin {
+    & .button-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+    & .map-margin {
       margin: 10px 10px 10px 10px;
       width: auto !important;
     }

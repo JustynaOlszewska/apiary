@@ -30,9 +30,7 @@ const setModal = inject('modal');
       width: 50%;
       justify-content: space-between;
       align-items: center;
-      // &.btn::first-letter {
-      //   text-transform: lowercase;
-      // }
+
       & .btn {
         font-size: 13px;
         font-family: sans-serif;

@@ -1,9 +1,9 @@
 <template>
-  <div style="height: 400px; width: 100%">
+  <div style="height: 305px; width: 100%">
     <ol-map
       :loadTilesWhileAnimating="true"
       :loadTilesWhileInteracting="true"
-      style="height: 400px"
+      style="height: 305px"
       @click="(event) => $emit('setCoordinates', event)"
     >
       <ol-view
