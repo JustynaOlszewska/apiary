@@ -4,8 +4,12 @@
       <!-- title === Pages.APIARIES && $emit('getData'); -->
       <router-link :to="link" @click="show = !show" class="text-link">
         <q-item-section avatar>
-          <q-icon :name="icon" class="avatar-icon" /> </q-item-section
-        ><span class="avatar-description">{{ title }}</span>
+          <q-icon
+            :name="icon"
+            class="navigation-icon"
+            size="25px"
+          /> </q-item-section
+        ><span class="navigation-description">{{ title }}</span>
       </router-link>
     </div>
   </Transition>
@@ -94,12 +98,16 @@ const props = withDefaults(defineProps<EssentialLinkProps>(), {
   &.active {
     background-color: #ffb74d;
   }
-  & .avatar-icon {
-    font-size: 1.3rem;
+  & .navigation-icon {
+    width: 100%;
   }
-  & .avatar-description {
+  & .navigation-description {
     position: fixed;
     left: 60px;
+    display: block;
+  }
+  & .toggle-navigation-description {
+    display: none;
   }
 }
 .v-enter-active,

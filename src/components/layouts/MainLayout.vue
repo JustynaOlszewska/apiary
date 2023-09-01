@@ -8,11 +8,17 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="drawerClick"
+          @click="
+            (event) => {
+              hideNavigationDescription();
+              drawerClick(event);
+            }
+          "
         />
-        <!-- <h3 style="color: black">Tu będzie dynamiczny nagłówek</h3> -->
-        <h4>+ Add apiary</h4>
+        <!-- <div> -->
+        <!-- <div>+ Add apiary</div> -->
         <SelectLang />
+        <!-- </div> -->
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -32,8 +38,6 @@
         />
       </q-list>
     </q-drawer>
-    <!-- @set-link="setLangInLink" -->
-
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -54,18 +58,10 @@ const i18n = useI18n();
 const apiaryStore = useApiary();
 
 const leftDrawerOpen = ref(true);
-//zastąpione drawerClick
-// function toggleLeftDrawer() {
-//   leftDrawerOpen.value = !leftDrawerOpen.value;
-// }
+
 const miniState = ref(false);
-// const titlePage = ref([]);
-// onMounted(() => {
-//   titlePage.value.map((el) => {
-//     // el.has;
-//   });
-// });
-const drawerClick = (e) => {
+
+const drawerClick = (e: Event) => {
   if (miniState.value) {
     miniState.value = false;
     e.stopPropagation();
@@ -73,30 +69,14 @@ const drawerClick = (e) => {
     miniState.value = true;
   }
 };
+const hideNavigationDescription = () => {
+  var elements = document.querySelectorAll('.navigation-description');
+  console.log('elements', elements);
+  elements.forEach((element) => {
+    element?.classList.toggle('toggle-navigation-description');
+  });
+};
 
-// const currentLang = computed(() => {
-//   return sessionStorage.getItem('currentLang');
-// });
-// watch(
-//   () => [currentLang.value],
-//   (newValue) => {
-//     console.log('watch', newValue);
-//   }
-// );
-// const setLangInLink = (link) => {
-//   // nextTick();
-//   console.log(
-//     'link',
-//     link,
-//     i18n.locale.value,
-//     sessionStorage.getItem('currentLang')?.toLocaleLowerCase()
-//   );
-//   apiaryStore.essentialLinks.forEach((el) => {
-//     el.link = `/${sessionStorage.getItem('currentLang')?.toLocaleLowerCase()}/${
-//       el.route
-//     }`;
-//   });
-// };
 watch(
   () => i18n.locale.value,
   (newValue) => {
@@ -111,7 +91,6 @@ watch(
 :deep(.q-field__inner .relative-position .col .self-stretch) {
   width: 15%;
 }
-
 :deep(.q-list) {
   margin-top: 20px;
 }
@@ -119,10 +98,9 @@ watch(
   background-color: white;
   position: absolute;
   right: 0;
-  /* width: 96.5%; */
-  left: 60px;
+  left: 53px;
 }
 :deep(.q-drawer-container:not(.q-drawer--mini-animate) .q-drawer--mini) {
-  width: 60px !important;
+  width: 53px !important;
 }
 </style>
