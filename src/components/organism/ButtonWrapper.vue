@@ -28,12 +28,12 @@ const background = computed(() => {
 defineEmits<{
   (e: 'someAction'): void;
 }>();
-function getImageUrl() {
+const getImageUrl = () => {
   // This path must be correct for your file
   if (props.src) {
     return new URL(props.src, import.meta.url);
   }
-}
+};
 </script>
 
 <style scoped>

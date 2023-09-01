@@ -24,11 +24,21 @@
             <ol-geom-point :coordinates="coordinates"> </ol-geom-point>
             <ol-style>
               <!-- <ol-style-circle :radius="radius"> -->
-              <ol-style-text text="Hellooooo"></ol-style-text>
+              <!-- <ol-style-text text="Hellooooo"></ol-style-text> -->
+              <!-- <img src="../../assets/images/icons8-poland-30.png" ref="qqq" /> -->
+              <!-- <p>//{{ qqq }}</p> -->
               <ol-style-icon
-                :src="imgUrlUnitedPoland"
+                color="red"
+                opacity="1"
+                src="../../assets/images/icons8-poland-30.png"
                 :scale="0.1"
               ></ol-style-icon>
+              <!-- <ol-style-icon
+                opacity="1"
+                :imgSize="[30, 30]"
+                :img="qqq"
+                :scale="0.1"
+              ></ol-style-icon> -->
 
               <!--     <ol-style-fill :color="fillColor"></ol-style-fill>
                 <ol-style-stroke
@@ -45,13 +55,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import imgUrlUnitedPoland from '@assets/images/icons8-poland-30.png';
 
 import 'vue3-openlayers/dist/vue3-openlayers.css';
 defineProps({
   coordinates: Array<number | null>
 });
+const qqq = ref(document.createElement('img'));
+
 const center = ref([47.41322, 4.619482]);
 const projection = ref('EPSG:4326');
 const zoom = ref(8);
@@ -68,10 +80,13 @@ defineEmits<{
   (e: 'setCoordinates', coordinates: { lat: number; lng: number }): void;
 }>();
 
-// onMounted(() => {
-//   console.log('map', map.value);
-//   //   var marker = L.marker([51.5, -0.09]).addTo(map);
-// });
+onMounted(() => {
+  // qqq.value = document.createElement('img');
+  qqq.value.src = '../../assets/images/icons8-poland-30.png';
+  console.log('map', qqq.value);
+
+  //   //   var marker = L.marker([51.5, -0.09]).addTo(map);
+});
 </script>
 
 <style scoped lang="scss">
