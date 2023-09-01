@@ -14,7 +14,6 @@
         :projection="projection"
       />
       <ol-fullscreen-control />
-      <!-- <ol-fullscreen-control v-if="fullscreencontrol" /> -->
       <ol-tile-layer>
         <ol-source-osm />
       </ol-tile-layer>
@@ -23,29 +22,11 @@
           <ol-feature>
             <ol-geom-point :coordinates="coordinates"> </ol-geom-point>
             <ol-style>
-              <!-- <ol-style-circle :radius="radius"> -->
-              <!-- <ol-style-text text="Hellooooo"></ol-style-text> -->
-              <!-- <img src="../../assets/images/icons8-poland-30.png" ref="qqq" /> -->
-              <!-- <p>//{{ qqq }}</p> -->
               <ol-style-icon
-                color="red"
-                opacity="1"
-                src="../../assets/images/icons8-poland-30.png"
-                :scale="0.1"
+                :opacity="0.8"
+                :src="imgUrlUnitedPoland"
+                :scale="0.8"
               ></ol-style-icon>
-              <!-- <ol-style-icon
-                opacity="1"
-                :imgSize="[30, 30]"
-                :img="qqq"
-                :scale="0.1"
-              ></ol-style-icon> -->
-
-              <!--     <ol-style-fill :color="fillColor"></ol-style-fill>
-                <ol-style-stroke
-                  :color="strokeColor"
-                  :width="strokeWidth"
-                ></ol-style-stroke> -->
-              <!-- </ol-style-circle> -->
             </ol-style>
           </ol-feature>
         </ol-source-vector>
@@ -55,45 +36,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import imgUrlUnitedPoland from '@assets/images/icons8-poland-30.png';
+import { ref } from 'vue';
+import imgUrlUnitedPoland from '@assets/images/icons8-bee-box-48.png';
 
 import 'vue3-openlayers/dist/vue3-openlayers.css';
 defineProps({
   coordinates: Array<number | null>
 });
-const qqq = ref(document.createElement('img'));
 
 const center = ref([47.41322, 4.619482]);
 const projection = ref('EPSG:4326');
 const zoom = ref(8);
 const rotation = ref(0);
 
-const radius = ref(40);
-const strokeWidth = ref(10);
-const strokeColor = ref('red');
-const fillColor = ref('white');
-// const coordinate = ref([40, 40]);
-// const map = ref();
-
 defineEmits<{
   (e: 'setCoordinates', coordinates: { lat: number; lng: number }): void;
 }>();
-
-onMounted(() => {
-  // qqq.value = document.createElement('img');
-  qqq.value.src = '../../assets/images/icons8-poland-30.png';
-  console.log('map', qqq.value);
-
-  //   //   var marker = L.marker([51.5, -0.09]).addTo(map);
-});
 </script>
-
-<style scoped lang="scss">
-// :deep(.leaflet-left) {
-//   left: 95%;
-// }
-// :deep(.leaflet-top) {
-//   top: 75%;
-// }
-</style>
