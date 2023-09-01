@@ -15,8 +15,10 @@
             }
           "
         />
-        <h4>+ Add apiary</h4>
+        <!-- <div> -->
+        <!-- <div>+ Add apiary</div> -->
         <SelectLang />
+        <!-- </div> -->
       </q-toolbar>
     </q-header>
     <q-drawer
@@ -96,9 +98,9 @@ watch(
   background-color: white;
   position: absolute;
   right: 0;
-  left: 60px;
+  left: 53px;
 }
 :deep(.q-drawer-container:not(.q-drawer--mini-animate) .q-drawer--mini) {
-  width: 60px !important;
+  width: 53px !important;
 }
 </style>
