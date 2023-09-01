@@ -5,7 +5,7 @@
       <router-link :to="link" @click="show = !show" class="text-link">
         <q-item-section avatar>
           <q-icon :name="icon" class="avatar-icon" /> </q-item-section
-        ><span class="avatar-description">{{ title }}</span>
+        ><span class="navigation-description">{{ title }}</span>
       </router-link>
     </div>
   </Transition>
@@ -97,9 +97,13 @@ const props = withDefaults(defineProps<EssentialLinkProps>(), {
   & .avatar-icon {
     font-size: 1.3rem;
   }
-  & .avatar-description {
+  & .navigation-description {
     position: fixed;
     left: 60px;
+    display: block;
+  }
+  & .toggle-navigation-description {
+    display: none;
   }
 }
 .v-enter-active,
