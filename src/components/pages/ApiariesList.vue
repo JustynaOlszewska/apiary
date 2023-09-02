@@ -11,6 +11,15 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
   <div>
     <div id="q-app">
       <div class="q-pa-md">
+        <!-- :visible-columns="[
+            'desc',
+            'name',
+            'address',
+            'type',
+            'sun exposure',
+            'hives',
+            'remove'
+          ]" -->
         <q-table
           v-if="preperedDataApiary && columns"
           :loading="loading"
@@ -56,6 +65,54 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               ><q-btn label="Create"
             /></router-link>
             <q-btn label="Refresh" @click="apiaryStore.getInitApiaryData" />
+            <q-btn label="Remove" @click="showRemoveAndEditIcon" />
+          </template>
+          <template v-slot:header="props">
+            <q-tr :props="props">
+              <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                {{ col.label }}
+              </q-th>
+              <q-th auto-width v-if="permissionShowRemoveAndEditIcon"
+                >Actions</q-th
+              >
+            </q-tr>
+          </template>
+
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                {{ col.value }}
+              </q-td>
+              <q-td auto-width v-if="permissionShowRemoveAndEditIcon">
+                <ButtonWrapper
+                  src="../../assets/images/icons8-delete-24.png"
+                  :flat="true"
+                  background="none"
+                  color="#000000"
+                  margin="0"
+                />
+                <ButtonWrapper
+                  src="../../assets/images/icons8-pencil-48.png"
+                  :flat="true"
+                  background="none"
+                  color="#000000"
+                  margin="0"
+                />
+
+                <!-- click="click"
+                  @someAction="
+                    (event) => {
+                      $emit('setCoordinates', { lat, lng });
+                      setModal(false);
+                    }
+                  " -->
+              </q-td>
+            </q-tr>
+            <!--         <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+          </q-td>
+        </q-tr> -->
           </template>
         </q-table>
       </div>
@@ -68,6 +125,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
 import { ref, toRefs, onMounted, computed } from 'vue';
 import { useApiary } from '@stores/apiary-store';
 import ChartApriaries from '@components/ChartApriaries.vue';
+import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
 import { apiary } from '@constant/dataForm';
 import { cloneDeep } from 'lodash';
 import { useI18n } from 'vue-i18n';
@@ -109,10 +167,15 @@ onMounted(() => {
   // apiaryStore.setAllDataApiary(JSON.parse(r));
 });
 const resetSelectedData = () => {
-  console.log('zzzzzzzzzzzzzzz', preperedDataApiary.value, selectApiary.value);
   preperedDataApiary.value = dataApiary.value;
   selectApiary.value = null;
   // selectDataApiary(null);
+};
+const permissionShowRemoveAndEditIcon = ref(false);
+const showRemoveAndEditIcon = () => {
+  permissionShowRemoveAndEditIcon.value =
+    !permissionShowRemoveAndEditIcon.value;
+  console.log('zzzzzzzzzzzzzzz', preperedDataApiary.value, selectApiary.value);
 };
 const covertedDataApiaryForSelect = computed(() => {
   const preperedDataApiary = cloneDeep(dataApiary.value).map((apiary) => {

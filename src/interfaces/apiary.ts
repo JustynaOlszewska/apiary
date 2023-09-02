@@ -62,13 +62,14 @@ export interface InputWrapperProps {
 }
 export interface ButtonWrapperProps {
   src?: string;
-  label: string;
+  label?: string;
   click?: string | null;
   flat?: boolean;
   background?: string;
   color?: string;
   type?: string;
   formName?: string;
+  margin?: string;
 }
 export interface Coordinates {
   lat: number;
