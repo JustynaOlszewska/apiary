@@ -198,11 +198,13 @@ export const deleteAsync = async <T>(params: {
     });
 
     const response = await api.delete(params.url, params.config);
+    console.log('tokeinside', response);
+
     params.setStatus({ key: 'pending', value: false });
     params.setStatus({ key: 'error', value: { value: false, message: '' } });
     params.setStatus({ key: 'success', value: true });
 
-    return response.data.data;
+    return response.status;
   } catch (e: any) {
     params.setStatus({ key: 'pending', value: false });
     if (e.response) {

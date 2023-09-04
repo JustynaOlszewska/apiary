@@ -11,6 +11,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
   <div>
     <div id="q-app">
       <div class="q-pa-md">
+        <p>//{{ apiaryStore.status.pending }}</p>
         <q-table
           :visible-columns="[
             'desc',
@@ -35,7 +36,10 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
           v-model:pagination="pagination"
         >
           <template v-slot:loading>
-            <q-inner-loading showing color="primary" />
+            <q-inner-loading
+              :showing="apiaryStore.status.pending"
+              color="primary"
+            />
           </template>
           <template v-slot:top-right>
             <q-input

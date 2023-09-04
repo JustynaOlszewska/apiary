@@ -88,22 +88,6 @@ export const useApiary = defineStore('apiary', {
           'x-auth-token': token
         }
       };
-      // const data = {
-      //   name: 'Testowy rzszerzony',
-      //   id: 12,
-      //   address: 'Kadyny',
-      //   type: 'Warszawskie poszerzane',
-      //   sun: 3.9,
-      //   hives: 327,
-      //   forages: 'colza',
-      //   description: 'Opis najważnijszych cech pasieki',
-      //   zip: '82-300',
-      //   city: 'Słupsk',
-      //   state: 'Warmińsko-mazurskie',
-      //   country: 'Polska',
-      //   latitude: '123456',
-      //   longitude: '12345'
-      // };
       if (sessionStorage.getItem('token')) {
         try {
           this.loading = true;
