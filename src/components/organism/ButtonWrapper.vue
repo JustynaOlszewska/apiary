@@ -9,7 +9,7 @@
     <q-icon class="button-icon" v-if="src">
       <img :src="getImageUrl()" :alt="src" />
     </q-icon>
-    <div class="btn">{{ label }}</div>
+    <div class="btn" v-if="label">{{ label }}</div>
   </q-btn>
 </template>
 
@@ -20,7 +20,8 @@ import { ButtonWrapperProps } from '@interfaces/apiary';
 const props = withDefaults(defineProps<ButtonWrapperProps>(), {
   flat: false,
   background: '#ffb74d',
-  color: '#ffff'
+  color: '#ffff',
+  margin: '20px 12px 20px 0'
 });
 const background = computed(() => {
   return props.background;
@@ -56,6 +57,6 @@ const getImageUrl = () => {
   }
 }
 button {
-  margin: 20px 12px 20px 0;
+  margin: v-bind(margin);
 }
 </style>

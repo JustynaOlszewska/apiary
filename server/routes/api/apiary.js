@@ -123,22 +123,3 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 module.exports = router;
-
-// const express = require('express');
-// const { MongoClient } = require('mongodb');
-// const mongoURI = require('../../../config/default.json');
-// const client = new MongoClient(mongoURI.mongoURI);
-// const router = express.Router();
-// //get apiarydata
-// router.get('/apiary', async (req, res, next) => {
-//   const db = client.db('apiary');
-//   const coll = db.collection('apiary');
-//   const cursor = coll.find();
-//   let apiaryData;
-//   await cursor.forEach((cursor) => {
-//     apiaryData = cursor;
-//   });
-//   res.send(apiaryData);
-// });
-
-// module.exports = router;

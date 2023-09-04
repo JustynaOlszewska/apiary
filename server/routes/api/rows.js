@@ -115,17 +115,17 @@ router.put('/:id', auth, async (req, res) => {
 // @route    DELETE api/contacts/:id
 // @desc     Delete a contact
 // @access   Private
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/rows/:id', auth, async (req, res) => {
   try {
-    const contact = await Apiary.findById(req.params.id);
+    const contact = await RowsSchema.findById(req.params.id);
 
     if (!contact) return res.status(404).json({ msg: 'Apiary not found' });
 
     // Make sure user owns contact
-    if (contact.user.toString() !== req.user.id)
+    if (contact.user.toString() !== req.user.is)
       return res.status(401).json({ msg: 'Not authorized' });
 
-    await Apiary.findByIdAndRemove(req.params.id);
+    await RowsSchema.findByIdAndRemove(req.params.id);
 
     res.json({ msg: 'Apiary removed' });
   } catch (err) {

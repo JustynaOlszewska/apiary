@@ -12,6 +12,14 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
     <div id="q-app">
       <div class="q-pa-md">
         <q-table
+          :visible-columns="[
+            'desc',
+            'name',
+            'address',
+            'type',
+            'sun exposure',
+            'hives'
+          ]"
           v-if="preperedDataApiary && columns"
           :loading="loading"
           flat
@@ -56,6 +64,62 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               ><q-btn label="Create"
             /></router-link>
             <q-btn label="Refresh" @click="apiaryStore.getInitApiaryData" />
+            <q-btn label="Remove" @click="showRemoveAndEditIcon" />
+          </template>
+          <template v-slot:header="props">
+            <q-tr :props="props">
+              <q-th v-for="col in props.cols" :key="col.name" :props="props">
+                {{ col.label }}
+              </q-th>
+              <q-slide-transition
+                v-show="permissionShowRemoveAndEditIcon"
+                :duration="1000"
+              >
+                <q-th
+                  auto-width
+                  style="overflow: hidden; position: relative"
+                  class="display-el display"
+                  id="wrapper-column"
+                  ><p class="hiding-el transform" id="actions-column">
+                    Actions
+                  </p></q-th
+                >
+              </q-slide-transition>
+            </q-tr>
+          </template>
+
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                {{ col.value }}
+              </q-td>
+              <q-slide-transition
+                id="slide-transition"
+                v-show="permissionShowRemoveAndEditIcon"
+                :duration="1000"
+              >
+                <q-td
+                  auto-width
+                  class="visibility-el visibility actions-row display display-el wrapper-row"
+                >
+                  <ButtonWrapper
+                    src="../../assets/images/icons8-delete-24.png"
+                    :flat="true"
+                    background="none"
+                    color="#000000"
+                    margin="0"
+                    @click="apiaryStore.removeApiary(props.row._id)"
+                  />
+                  <ButtonWrapper
+                    src="../../assets/images/icons8-pencil-48.png"
+                    :flat="true"
+                    background="none"
+                    color="#000000"
+                    margin="0"
+                  />
+                </q-td>
+              </q-slide-transition>
+            </q-tr>
           </template>
         </q-table>
       </div>
@@ -68,6 +132,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
 import { ref, toRefs, onMounted, computed } from 'vue';
 import { useApiary } from '@stores/apiary-store';
 import ChartApriaries from '@components/ChartApriaries.vue';
+import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
 import { apiary } from '@constant/dataForm';
 import { cloneDeep } from 'lodash';
 import { useI18n } from 'vue-i18n';
@@ -86,10 +151,6 @@ const columns = apiary.columns;
 // const navigationActive = ref(false);
 onMounted(() => {
   // loading.value = true;
-  console.log(
-    'qqqqqqqqqqqqqqqqqqqqqqqqq',
-    JSON.parse(sessionStorage.getItem('dataApiary'))
-  );
   if (sessionStorage.getItem('dataApiary')) {
     // apiaryStore.dataApiary = JSON.parse(sessionStorage.getItem('dataApiary'));
     apiaryStore.setAllDataApiary(
@@ -101,18 +162,41 @@ onMounted(() => {
   }
 
   selectDataApiary();
-  // if (data) {
-  //   loading.value = false;
-  // }
-  // const r = { data, apiary };
-  // console.log('dataApiary', r);
-  // apiaryStore.setAllDataApiary(JSON.parse(r));
 });
 const resetSelectedData = () => {
-  console.log('zzzzzzzzzzzzzzz', preperedDataApiary.value, selectApiary.value);
   preperedDataApiary.value = dataApiary.value;
   selectApiary.value = null;
   // selectDataApiary(null);
+};
+// const inputRef = ref<Element | null>(null);
+
+const permissionShowRemoveAndEditIcon = ref(false);
+const showRemoveAndEditIcon = () => {
+  const actionsRow = document.querySelectorAll('.actions-row');
+  const wrapperRow = document.querySelectorAll('.wrapper-row');
+  const wrapperColumn = document.getElementById('wrapper-column');
+  const actionsColumn = document.getElementById('actions-column');
+  // if (permissionShowRemoveAndEditIcon.value)
+  //   actionsColumn?.classList.toggle('smooth-hiding');
+  actionsColumn?.classList.toggle('smooth-hiding');
+
+  actionsRow.forEach((el) => {
+    el.classList.toggle('smooth-visibility');
+  });
+
+  // wrapperColumn?.classList.toggle('smooth-display');
+  // wrapperRow.forEach((el) => {
+  //   el.classList.toggle('smooth-display');
+  // });
+
+  setTimeout(() => {
+    permissionShowRemoveAndEditIcon.value =
+      !permissionShowRemoveAndEditIcon.value;
+    console.log(
+      'qqqqqqqqqqqqqqqqqqqqqqqqsss',
+      permissionShowRemoveAndEditIcon.value
+    );
+  }, 1500);
 };
 const covertedDataApiaryForSelect = computed(() => {
   const preperedDataApiary = cloneDeep(dataApiary.value).map((apiary) => {
@@ -139,4 +223,43 @@ const selectDataApiary = (chosenApiary?: any) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.hiding-el {
+  transform: translateX(100%);
+  background-color: red;
+}
+.smooth-hiding {
+  transform: translateX(0);
+  background-color: green;
+}
+.transform {
+  transition: all 2s ease;
+  /* transition-delay: 1s; */
+}
+.visibility-el {
+  visibility: hidden;
+}
+.smooth-visibility {
+  visibility: visible;
+}
+.visibility {
+  transition: all 0.3s ease;
+  transition-delay: 1s;
+}
+/* .display-el { */
+/* opacity: 0; */
+/* background-color: red; */
+/* transform: scale(0); */
+/* display: none; */
+/* } */
+/* .smooth-display { */
+/* opacity: 1; */
+/* background-color: green; */
+/* transform: scale(1); */
+/* display: block; */
+/* } */
+/* .display {
+  transition: all 0.2s ease;
+  transition-delay: 2s;
+} */
+</style>

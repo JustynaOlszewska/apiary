@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { DataChart } from '../interfaces/apiary';
 
-import { getAsync, postAsync } from '../asyncAxios';
+import { getAsync, postAsync, deleteAsync } from '../asyncAxios';
 import { i18n } from '../boot/i18n';
 interface State {
   counter: number;
@@ -78,6 +78,53 @@ export const useApiary = defineStore('apiary', {
     },
     setStatus(newStatus: { key: keyof Response; value: any }) {
       this.status[newStatus.key] = newStatus.value;
+    },
+    async removeApiary(id: string) {
+      console.log('zzzzzzzzzzzzzzzzzzzzzzzzooo', id);
+      const token = sessionStorage.getItem('token');
+
+      const config = {
+        headers: {
+          'x-auth-token': token
+        }
+      };
+      // const data = {
+      //   name: 'Testowy rzszerzony',
+      //   id: 12,
+      //   address: 'Kadyny',
+      //   type: 'Warszawskie poszerzane',
+      //   sun: 3.9,
+      //   hives: 327,
+      //   forages: 'colza',
+      //   description: 'Opis najważnijszych cech pasieki',
+      //   zip: '82-300',
+      //   city: 'Słupsk',
+      //   state: 'Warmińsko-mazurskie',
+      //   country: 'Polska',
+      //   latitude: '123456',
+      //   longitude: '12345'
+      // };
+      if (sessionStorage.getItem('token')) {
+        try {
+          this.loading = true;
+          const r = await deleteAsync({
+            url: `http://localhost:5000/api/apiary/rows/${id}`,
+            // payload: id,
+            setStatus: this.setStatus,
+            config
+          });
+          console.log('toke', r);
+
+          if (r) {
+            // this.setAllDataApiary(data);
+            this.loading = false;
+          }
+        } catch (error) {
+          this.loading = false;
+
+          console.log('error', error);
+        }
+      }
     },
     async getInitApiaryData() {
       const token = sessionStorage.getItem('token');

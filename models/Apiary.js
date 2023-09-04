@@ -8,6 +8,7 @@ const ApiarySchema = mongoose.Schema({
         label: { type: String },
         align: { type: String },
         field: { type: String }
+        // _id: { type: String }
       }
     ]
     // rows: [
