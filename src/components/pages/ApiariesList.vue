@@ -11,16 +11,15 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
   <div>
     <div id="q-app">
       <div class="q-pa-md">
-        <!-- :visible-columns="[
+        <q-table
+          :visible-columns="[
             'desc',
             'name',
             'address',
             'type',
             'sun exposure',
-            'hives',
-            'remove'
-          ]" -->
-        <q-table
+            'hives'
+          ]"
           v-if="preperedDataApiary && columns"
           :loading="loading"
           flat
@@ -72,9 +71,20 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               <q-th v-for="col in props.cols" :key="col.name" :props="props">
                 {{ col.label }}
               </q-th>
-              <q-th auto-width v-if="permissionShowRemoveAndEditIcon"
-                >Actions</q-th
+              <q-slide-transition
+                v-show="permissionShowRemoveAndEditIcon"
+                :duration="1000"
               >
+                <q-th
+                  auto-width
+                  style="overflow: hidden; position: relative"
+                  class="display-el display"
+                  id="wrapper-column"
+                  ><p class="hiding-el transform" id="actions-column">
+                    Actions
+                  </p></q-th
+                >
+              </q-slide-transition>
             </q-tr>
           </template>
 
@@ -83,36 +93,33 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               <q-td v-for="col in props.cols" :key="col.name" :props="props">
                 {{ col.value }}
               </q-td>
-              <q-td auto-width v-if="permissionShowRemoveAndEditIcon">
-                <ButtonWrapper
-                  src="../../assets/images/icons8-delete-24.png"
-                  :flat="true"
-                  background="none"
-                  color="#000000"
-                  margin="0"
-                />
-                <ButtonWrapper
-                  src="../../assets/images/icons8-pencil-48.png"
-                  :flat="true"
-                  background="none"
-                  color="#000000"
-                  margin="0"
-                />
-
-                <!-- click="click"
-                  @someAction="
-                    (event) => {
-                      $emit('setCoordinates', { lat, lng });
-                      setModal(false);
-                    }
-                  " -->
-              </q-td>
+              <q-slide-transition
+                id="slide-transition"
+                v-show="permissionShowRemoveAndEditIcon"
+                :duration="1000"
+              >
+                <q-td
+                  auto-width
+                  class="visibility-el visibility actions-row display display-el wrapper-row"
+                >
+                  <ButtonWrapper
+                    src="../../assets/images/icons8-delete-24.png"
+                    :flat="true"
+                    background="none"
+                    color="#000000"
+                    margin="0"
+                    @click="apiaryStore.removeApiary(props.row._id)"
+                  />
+                  <ButtonWrapper
+                    src="../../assets/images/icons8-pencil-48.png"
+                    :flat="true"
+                    background="none"
+                    color="#000000"
+                    margin="0"
+                  />
+                </q-td>
+              </q-slide-transition>
             </q-tr>
-            <!--         <q-tr v-show="props.expand" :props="props">
-          <q-td colspan="100%">
-            <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
-          </q-td>
-        </q-tr> -->
           </template>
         </q-table>
       </div>
@@ -144,10 +151,6 @@ const columns = apiary.columns;
 // const navigationActive = ref(false);
 onMounted(() => {
   // loading.value = true;
-  console.log(
-    'qqqqqqqqqqqqqqqqqqqqqqqqq',
-    JSON.parse(sessionStorage.getItem('dataApiary'))
-  );
   if (sessionStorage.getItem('dataApiary')) {
     // apiaryStore.dataApiary = JSON.parse(sessionStorage.getItem('dataApiary'));
     apiaryStore.setAllDataApiary(
@@ -159,23 +162,41 @@ onMounted(() => {
   }
 
   selectDataApiary();
-  // if (data) {
-  //   loading.value = false;
-  // }
-  // const r = { data, apiary };
-  // console.log('dataApiary', r);
-  // apiaryStore.setAllDataApiary(JSON.parse(r));
 });
 const resetSelectedData = () => {
   preperedDataApiary.value = dataApiary.value;
   selectApiary.value = null;
   // selectDataApiary(null);
 };
+// const inputRef = ref<Element | null>(null);
+
 const permissionShowRemoveAndEditIcon = ref(false);
 const showRemoveAndEditIcon = () => {
-  permissionShowRemoveAndEditIcon.value =
-    !permissionShowRemoveAndEditIcon.value;
-  console.log('zzzzzzzzzzzzzzz', preperedDataApiary.value, selectApiary.value);
+  const actionsRow = document.querySelectorAll('.actions-row');
+  const wrapperRow = document.querySelectorAll('.wrapper-row');
+  const wrapperColumn = document.getElementById('wrapper-column');
+  const actionsColumn = document.getElementById('actions-column');
+  // if (permissionShowRemoveAndEditIcon.value)
+  //   actionsColumn?.classList.toggle('smooth-hiding');
+  actionsColumn?.classList.toggle('smooth-hiding');
+
+  actionsRow.forEach((el) => {
+    el.classList.toggle('smooth-visibility');
+  });
+
+  // wrapperColumn?.classList.toggle('smooth-display');
+  // wrapperRow.forEach((el) => {
+  //   el.classList.toggle('smooth-display');
+  // });
+
+  setTimeout(() => {
+    permissionShowRemoveAndEditIcon.value =
+      !permissionShowRemoveAndEditIcon.value;
+    console.log(
+      'qqqqqqqqqqqqqqqqqqqqqqqqsss',
+      permissionShowRemoveAndEditIcon.value
+    );
+  }, 1500);
 };
 const covertedDataApiaryForSelect = computed(() => {
   const preperedDataApiary = cloneDeep(dataApiary.value).map((apiary) => {
@@ -202,4 +223,43 @@ const selectDataApiary = (chosenApiary?: any) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.hiding-el {
+  transform: translateX(100%);
+  background-color: red;
+}
+.smooth-hiding {
+  transform: translateX(0);
+  background-color: green;
+}
+.transform {
+  transition: all 2s ease;
+  /* transition-delay: 1s; */
+}
+.visibility-el {
+  visibility: hidden;
+}
+.smooth-visibility {
+  visibility: visible;
+}
+.visibility {
+  transition: all 0.3s ease;
+  transition-delay: 1s;
+}
+/* .display-el { */
+/* opacity: 0; */
+/* background-color: red; */
+/* transform: scale(0); */
+/* display: none; */
+/* } */
+/* .smooth-display { */
+/* opacity: 1; */
+/* background-color: green; */
+/* transform: scale(1); */
+/* display: block; */
+/* } */
+/* .display {
+  transition: all 0.2s ease;
+  transition-delay: 2s;
+} */
+</style>

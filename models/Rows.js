@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const RowsSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-  id: { type: Number, unique: true },
+  id: { type: String, unique: true },
+  // _id: { type: Number, unique: true },
   name: { type: String },
   address: { type: String },
   type: { type: String },

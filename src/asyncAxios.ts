@@ -1,6 +1,6 @@
 // import { api } from '@/axios/axios';
 import { Response } from '@/interfaces/shared';
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 export const postAsync = async <T>(params: {
   url: string;
@@ -183,19 +183,21 @@ export const putAsync = async <T>(params: {
 
 export const deleteAsync = async <T>(params: {
   url: string;
-  payload: T;
+  // payload: T;
   setStatus: (status: {
     key: keyof Response;
     value: Response[keyof Response];
   }) => void;
+  config: AxiosRequestConfig<any> | undefined;
 }) => {
   params.setStatus({ key: 'pending', value: true });
 
   try {
-    const response = await api.delete(params.url, {
-      data: { ...params.payload }
+    const api = axios.create({
+      baseURL: import.meta.env.VITE_AXIOS_BASE_URL
     });
 
+    const response = await api.delete(params.url, params.config);
     params.setStatus({ key: 'pending', value: false });
     params.setStatus({ key: 'error', value: { value: false, message: '' } });
     params.setStatus({ key: 'success', value: true });
