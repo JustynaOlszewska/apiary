@@ -13,7 +13,7 @@
       @reset="onReset"
       :greedy="true"
     >
-      <h2>General</h2>
+      <h2>{{ t('formHeaders.general') }}</h2>
       <div class="border">
         <div>
           <InputWrapper
@@ -42,14 +42,14 @@
 
           <InputWrapper v-model="hives" label="Hives" placeholder="hives." />
           <InputWrapper
-            v-model="hives"
+            v-model="description"
             label="Description"
             placeholder="Select description."
             type="textarea"
           />
         </div>
       </div>
-      <h2>Address</h2>
+      <h2>{{ t('formHeaders.address') }}</h2>
       <div class="border">
         <div>
           <InputWrapper
@@ -75,7 +75,7 @@
           />
         </div>
       </div>
-      <h2>Map coordiantes</h2>
+      <h2>{{ t('formHeaders.mapCoordiantes') }}</h2>
       <div class="border">
         <div>
           <InputWrapper
@@ -130,7 +130,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { QForm } from 'quasar';
 import { useApiary } from '@stores/apiary-store';
 import TheModal from '@components/modals/TheModal.vue';
@@ -142,6 +142,12 @@ import { foragesOptions, sunOptions } from '@constant/dataInputs';
 import { provide } from 'vue';
 import { Coordinates } from '@interfaces/apiary';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+const props = defineProps<{
+  apiary?: Array<any>;
+}>();
 
 const router = useRouter();
 
@@ -167,6 +173,25 @@ const forages = ref(null);
 const type = ref(null);
 const sun = ref(null);
 const hives = ref(null);
+onMounted(() => {
+  if (props.apiary) {
+    console.log('props.apiary', props.apiary[0]);
+
+    lat.value = props.apiary[0].lat;
+    lng.value = props.apiary[0].lng;
+    hives.value = props.apiary[0].hives;
+    country.value = props.apiary[0].country;
+    state.value = props.apiary[0].state;
+    city.value = props.apiary[0].city;
+    zip.value = props.apiary[0].zip;
+    address.value = props.apiary[0].address;
+    name.value = props.apiary[0].name;
+    forages.value = props.apiary[0].forages;
+    type.value = props.apiary[0].type;
+    sun.value = props.apiary[0].sun;
+    description.value = props.apiary[0].description;
+  }
+});
 const onSubmit = async () => {
   const formData = {
     lat: lat.value,

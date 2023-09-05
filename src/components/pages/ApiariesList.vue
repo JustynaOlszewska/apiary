@@ -11,16 +11,15 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
   <div>
     <div id="q-app">
       <div class="q-pa-md">
-        <p>//{{ apiaryStore.status.pending }}</p>
-        <q-table
-          :visible-columns="[
+        <!-- :visible-columns="[
             'desc',
             'name',
             'address',
             'type',
             'sun exposure',
             'hives'
-          ]"
+          ]" -->
+        <q-table
           v-if="preperedDataApiary && columns"
           :loading="loading"
           flat
@@ -68,7 +67,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               ><q-btn label="Create"
             /></router-link>
             <q-btn label="Refresh" @click="apiaryStore.getInitApiaryData" />
-            <q-btn label="Remove" @click="showRemoveAndEditIcon" />
+            <q-btn label="Actions" @click="showRemoveAndEditIcon" />
           </template>
           <template v-slot:header="props">
             <q-tr :props="props">
@@ -85,7 +84,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
                   class="display-el display"
                   id="wrapper-column"
                   ><p class="hiding-el transform" id="actions-column">
-                    Actions
+                    {{ t('actions') }}
                   </p></q-th
                 >
               </q-slide-transition>
@@ -114,13 +113,15 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
                     margin="0"
                     @click="apiaryStore.removeApiary(props.row._id)"
                   />
-                  <ButtonWrapper
-                    src="../../assets/images/icons8-pencil-48.png"
-                    :flat="true"
-                    background="none"
-                    color="#000000"
-                    margin="0"
-                  />
+                  <router-link
+                    :to="`/${i18n.locale.value}/apiaries/${props.row._id}/edit`"
+                    ><ButtonWrapper
+                      src="../../assets/images/icons8-pencil-48.png"
+                      :flat="true"
+                      background="none"
+                      color="#000000"
+                      margin="0"
+                  /></router-link>
                 </q-td>
               </q-slide-transition>
             </q-tr>
@@ -147,22 +148,15 @@ const { t } = useI18n();
 const apiaryStore = useApiary();
 const { loading, dataApiary } = toRefs(apiaryStore);
 const filter = ref('');
-// const loading = ref(false);
 const tableRef = ref(null);
 const selectApiary = ref(null);
 const refSelectApiary = ref<HTMLInputElement | null>(null);
 const columns = apiary.columns;
-// const navigationActive = ref(false);
 onMounted(() => {
-  // loading.value = true;
   if (sessionStorage.getItem('dataApiary')) {
-    // apiaryStore.dataApiary = JSON.parse(sessionStorage.getItem('dataApiary'));
     apiaryStore.setAllDataApiary(
       JSON.parse(sessionStorage.getItem('dataApiary'))
     );
-    // apiaryStore.setChartApiary(
-    //   JSON.parse(sessionStorage.getItem('chartApiary'))
-    // );
   }
 
   selectDataApiary();
@@ -170,9 +164,7 @@ onMounted(() => {
 const resetSelectedData = () => {
   preperedDataApiary.value = dataApiary.value;
   selectApiary.value = null;
-  // selectDataApiary(null);
 };
-// const inputRef = ref<Element | null>(null);
 
 const permissionShowRemoveAndEditIcon = ref(false);
 const showRemoveAndEditIcon = () => {
@@ -266,4 +258,7 @@ const selectDataApiary = (chosenApiary?: any) => {
   transition: all 0.2s ease;
   transition-delay: 2s;
 } */
+:deep(.q-table__card .q-table__middle) {
+  height: 300px;
+}
 </style>

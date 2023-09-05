@@ -3,9 +3,10 @@ import { DataChart } from '../interfaces/apiary';
 
 import { getAsync, postAsync, deleteAsync } from '../asyncAxios';
 import { i18n } from '../boot/i18n';
+import { ApiaryData } from '@interfaces/apiary';
 interface State {
   counter: number;
-  dataApiary: null;
+  dataApiary: ApiaryData[] | null;
   dataChart: DataChart;
   status: any;
   loading: boolean;

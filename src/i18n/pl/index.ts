@@ -42,5 +42,11 @@ export default {
   chartTitle: 'Zestawienie danych dotyczących pasiek',
   countBeehives: 'Liczba uli',
   apiares: 'Spis pasiek',
-  search: 'Szukaj'
+  search: 'Szukaj',
+  actions: 'Akcje',
+  formHeaders: {
+    general: 'Główne',
+    address: 'Adres',
+    mapCoordiantes: 'Współrzędne mapy'
+  }
 };

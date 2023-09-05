@@ -41,5 +41,11 @@ export default {
   },
   chartTitle: 'Datablad om bigårde',
   apiares: 'Liste over bigårde',
-  search: 'Søg'
+  search: 'Søg',
+  actions: 'Akcje',
+  formHeaders: {
+    general: 'Generel',
+    address: 'Adresse',
+    mapCoordiantes: 'Kort koordinater'
+  }
 };

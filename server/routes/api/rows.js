@@ -49,8 +49,22 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     // const { rowsApiary } = req.body;
-
-    const { id, name, hives, type, sun, address } = req.body;
+    const {
+      id,
+      name,
+      hives,
+      type,
+      sun,
+      address,
+      lat,
+      lng,
+      country,
+      state,
+      city,
+      zip,
+      forages,
+      description
+    } = req.body;
 
     try {
       const newRow = new RowsSchema({
@@ -60,7 +74,15 @@ router.post(
         type,
         sun,
         address,
-        user: req.user.is
+        user: req.user.is,
+        lat,
+        lng,
+        country,
+        state,
+        city,
+        zip,
+        forages,
+        description
       });
 
       const contact = await newRow.save();

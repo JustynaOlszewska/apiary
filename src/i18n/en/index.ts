@@ -41,5 +41,11 @@ export default {
   },
   chartTitle: 'Datasheet on apiaries',
   apiares: 'List of apiaries',
-  search: 'Search'
+  search: 'Search',
+  actions: 'Akcje',
+  formHeaders: {
+    general: 'General',
+    address: 'Address',
+    mapCoordiantes: 'Map coordinates'
+  }
 };
