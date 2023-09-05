@@ -147,6 +147,7 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const props = defineProps<{
   apiary?: Array<any>;
+  id?: string;
 }>();
 
 const router = useRouter();
@@ -209,7 +210,9 @@ const onSubmit = async () => {
     description: description.value
   };
   // if (r) {
-  const dataSended = await apiaryStore.addApiaryData(formData);
+  const dataSended = props?.apiary
+    ? await apiaryStore.updateApiaryData(formData, props.id)
+    : await apiaryStore.addApiaryData(formData);
 
   // }
   if (dataSended) {

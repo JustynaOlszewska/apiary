@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { DataChart } from '../interfaces/apiary';
 
-import { getAsync, postAsync, deleteAsync } from '../asyncAxios';
+import { getAsync, postAsync, deleteAsync, putAsync } from '../asyncAxios';
 import { i18n } from '../boot/i18n';
 import { ApiaryData } from '@interfaces/apiary';
 interface State {
@@ -81,7 +81,6 @@ export const useApiary = defineStore('apiary', {
       this.status[newStatus.key] = newStatus.value;
     },
     async removeApiary(id: string) {
-      console.log('zzzzzzzzzzzzzzzzzzzzzzzzooo', id);
       const token = sessionStorage.getItem('token');
 
       const config = {
@@ -176,6 +175,37 @@ export const useApiary = defineStore('apiary', {
           this.loading = true;
           const r = await postAsync({
             url: 'http://localhost:5000/api/apiary/rows',
+            payload: data,
+            setStatus: this.setStatus,
+            config
+          });
+          console.log('toke', r);
+
+          if (r) {
+            // this.setAllDataApiary(data);
+            this.loading = false;
+          }
+        } catch (error) {
+          this.loading = false;
+
+          console.log('error', error);
+        }
+      }
+      return true;
+    },
+    async updateApiaryData(data, id) {
+      const token = sessionStorage.getItem('token');
+
+      const config = {
+        headers: {
+          'x-auth-token': token
+        }
+      };
+      if (sessionStorage.getItem('token')) {
+        try {
+          this.loading = true;
+          const r = await putAsync({
+            url: `http://localhost:5000/api/apiary/rows/${id}`,
             payload: data,
             setStatus: this.setStatus,
             config

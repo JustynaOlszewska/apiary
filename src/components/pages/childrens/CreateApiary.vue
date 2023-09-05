@@ -20,7 +20,7 @@
       </div>
     </div>
     <q-scroll-area class="scroll-area">
-      <FormWrapperCreateApiary :apiary="props.apiary" />
+      <FormWrapperCreateApiary :apiary="props.apiary" :id="props.id" />
     </q-scroll-area>
   </div>
 </template>

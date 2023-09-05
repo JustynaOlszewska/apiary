@@ -136,6 +136,9 @@ export const putAsync = async <T>(params: {
   params.setStatus({ key: 'pending', value: true });
 
   try {
+    const api = axios.create({
+      baseURL: import.meta.env.VITE_AXIOS_BASE_URL
+    });
     const response = await api.put(params.url, params.payload);
 
     params.setStatus({ key: 'pending', value: false });

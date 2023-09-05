@@ -98,30 +98,58 @@ router.post(
 // @route    PUT api/contacts/:id
 // @desc     Update a contact
 // @access   Private
-router.put('/:id', auth, async (req, res) => {
+router.put('/rows/:id', auth, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty())
     return res.status(400).json({ errors: errors.array() });
 
-  const { name, email, phone, type } = req.body;
+  const {
+    id,
+    name,
+    hives,
+    type,
+    sun,
+    address,
+    lat,
+    lng,
+    country,
+    state,
+    city,
+    zip,
+    forages,
+    description
+  } = req.body;
 
   // Build contact object
   const contactFields = {};
+  if (hives) contactFields.hives = hives;
+
+  if (sun) contactFields.sun = sun;
+  if (address) contactFields.address = address;
+  if (lat) contactFields.lat = lat;
+  if (lng) contactFields.lng = lng;
+
+  if (zip) contactFields.zip = zip;
+  if (city) contactFields.city = city;
+  if (state) contactFields.state = state;
+  if (country) contactFields.country = country;
   if (name) contactFields.name = name;
-  if (email) contactFields.email = email;
-  if (phone) contactFields.phone = phone;
   if (type) contactFields.type = type;
+  if (id) contactFields.id = id;
+  if (description) contactFields.description = description;
+  if (forages) contactFields.forages = forages;
 
   try {
-    let contact = await Apiary.findById(req.params.id);
+    let contact = await RowsSchema.findById(req.params.id);
 
     if (!contact) return res.status(404).json({ msg: 'Apiary not found' });
 
     // Make sure user owns contact
-    if (contact.user.toString() !== req.user.id)
+
+    if (contact.user.toString() !== req.user.is)
       return res.status(401).json({ msg: 'Not authorized' });
 
-    contact = await Apiary.findByIdAndUpdate(
+    contact = await RowsSchema.findByIdAndUpdate(
       req.params.id,
       { $set: contactFields },
       { new: true }
