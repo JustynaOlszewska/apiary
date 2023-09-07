@@ -37,7 +37,7 @@ const getImageUrl = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .btn {
   background-color: v-bind(background);
   border-radius: 0;

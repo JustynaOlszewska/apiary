@@ -59,7 +59,6 @@ router.post(
       lat,
       lng,
       country,
-      state,
       city,
       zip,
       forages,
@@ -78,7 +77,6 @@ router.post(
         lat,
         lng,
         country,
-        state,
         city,
         zip,
         forages,
@@ -113,7 +111,6 @@ router.put('/rows/:id', auth, async (req, res) => {
     lat,
     lng,
     country,
-    state,
     city,
     zip,
     forages,
@@ -131,7 +128,6 @@ router.put('/rows/:id', auth, async (req, res) => {
 
   if (zip) contactFields.zip = zip;
   if (city) contactFields.city = city;
-  if (state) contactFields.state = state;
   if (country) contactFields.country = country;
   if (name) contactFields.name = name;
   if (type) contactFields.type = type;

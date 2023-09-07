@@ -86,3 +86,13 @@ export interface Coordinates {
   lat: number;
   lng: number;
 }
+export interface OptionsDropDownApiary {
+  extention: string;
+  title: string;
+}
+export interface ButtonDropDownProps {
+  options: OptionsDropDownApiary[];
+  background?: string;
+  color?: string;
+  margin?: string;
+}

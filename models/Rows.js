@@ -5,14 +5,13 @@ const RowsSchema = mongoose.Schema({
   name: { type: String },
   address: { type: String },
   type: { type: String },
-  hives: { type: String },
+  hives: { type: Number },
   sun: { type: String },
   lat: { type: String },
   lng: {
     type: String
   },
   country: { type: String },
-  state: { type: String },
   city: { type: String },
   zip: { type: String },
   forages: { type: String },

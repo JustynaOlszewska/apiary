@@ -32,6 +32,7 @@
             v-model="type"
             label="Type"
             placeholder="Select type."
+            :options="typeOptions"
           />
           <InputWrapper
             v-model="sun"
@@ -40,7 +41,12 @@
             :options="sunOptions"
           />
 
-          <InputWrapper v-model="hives" label="Hives" placeholder="hives." />
+          <InputWrapper
+            v-model="hives"
+            label="Hives"
+            placeholder="hives."
+            type="number"
+          />
           <InputWrapper
             v-model="description"
             label="Description"
@@ -64,11 +70,6 @@
             placeholder="Select city."
           />
           <InputWrapper
-            v-model="state"
-            label="State"
-            placeholder="Select state."
-          />
-          <InputWrapper
             v-model="country"
             label="Country"
             placeholder="Select country."
@@ -79,7 +80,7 @@
       <div class="border">
         <div>
           <InputWrapper
-            v-model="lat"
+            v-model.number="lat"
             label="Latitude"
             placeholder="Select state."
             type="number"
@@ -92,7 +93,7 @@
             ></q-icon>
           </InputWrapper>
           <InputWrapper
-            v-model="lng"
+            v-model.number="lng"
             label="Longitude"
             placeholder="Select lng."
             type="number"
@@ -138,7 +139,7 @@ import 'leaflet/dist/leaflet.css';
 import ModalHeaderContent from '@components/modals/headersInModals/ModalHeaderContent.vue';
 import InputWrapper from '@components/molecules/InputWrapper.vue';
 import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
-import { foragesOptions, sunOptions } from '@constant/dataInputs';
+import { foragesOptions, sunOptions, typeOptions } from '@constant/dataInputs';
 import { provide } from 'vue';
 import { Coordinates } from '@interfaces/apiary';
 import { useRouter } from 'vue-router';
@@ -163,7 +164,6 @@ const apiaryStore = useApiary();
 const lat = ref<number | null>(null);
 const lng = ref<number | null>(null);
 const country = ref<number | null>(null);
-const state = ref<number | null>(null);
 const city = ref<number | null>(null);
 const zip = ref<number | null>(null);
 const address = ref<number | null>(null);
@@ -176,13 +176,10 @@ const sun = ref(null);
 const hives = ref(null);
 onMounted(() => {
   if (props.apiary) {
-    console.log('props.apiary', props.apiary[0]);
-
     lat.value = props.apiary[0].lat;
     lng.value = props.apiary[0].lng;
     hives.value = props.apiary[0].hives;
     country.value = props.apiary[0].country;
-    state.value = props.apiary[0].state;
     city.value = props.apiary[0].city;
     zip.value = props.apiary[0].zip;
     address.value = props.apiary[0].address;
@@ -199,7 +196,6 @@ const onSubmit = async () => {
     lng: lng.value,
     hives: hives.value,
     country: country.value,
-    state: state.value,
     city: city.value,
     zip: zip.value,
     address: address.value,
@@ -232,7 +228,6 @@ const onReset = () => {
   lng.value = null;
   hives.value = null;
   country.value = null;
-  state.value = null;
   city.value = null;
   zip.value = null;
   address.value = null;
