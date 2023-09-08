@@ -12,21 +12,12 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
     <div id="q-app">
       <div class="q-pa-md">
         <q-table
-          :visible-columns="[
-            'desc',
-            'name',
-            'address',
-            'type',
-            'sun exposure',
-            'hives'
-          ]"
           v-if="preperedDataApiary && columns"
           :loading="loading"
           flat
           bordered
           ref="tableRef"
           tabindex="0"
-          :title="t('apiares')"
           :rows="preperedDataApiary"
           :columns="columns"
           :filter="filter"
@@ -35,36 +26,70 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
           v-model:pagination="pagination"
         >
           <template v-slot:loading>
-            <q-inner-loading showing color="primary" />
+            <q-inner-loading
+              :showing="apiaryStore.status.pending"
+              color="primary"
+            />
           </template>
           <template v-slot:top-right>
+            <ButtonWrapper
+              src="../../assets/images/icons8-tools-48.png"
+              click="click"
+              @someAction="showRemoveAndEditIcon"
+              background="#EFEFEF"
+            />
+            <ButtonDropdown :options="optionsDropDown" @someAction="getExel" />
+          </template>
+          <template v-slot:top-left>
             <q-input
-              borderless
+              square
+              outlined
               dense
               debounce="300"
               v-model="filter"
               :placeholder="t('search')"
+              :style="{
+                width: '110px',
+                margin: '10px'
+              }"
+              filled
             >
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-icon name="search"></q-icon>
               </template>
             </q-input>
-
             <q-select
+              use-input
+              filled
               square
               outlined
+              :placeholder="t('placeholder')"
               ref="refSelectApiary"
               v-model="selectApiary"
               :options="covertedDataApiaryForSelect"
               @update:model-value="(value) => selectDataApiary(value)"
-              label="Square outlined"
+              :style="{
+                width: '170px',
+                margin: '10px'
+              }"
             />
-            <q-btn label="REset" @click.stop.prevent="resetSelectedData" />
-            <router-link :to="`/${i18n.locale.value}/apiaries/create`"
-              ><q-btn label="Create"
-            /></router-link>
-            <q-btn label="Refresh" @click="apiaryStore.getInitApiaryData" />
-            <q-btn label="Remove" @click="showRemoveAndEditIcon" />
+            <ButtonWrapper
+              src="../../assets/images/icons8-reset-24.png"
+              click="click"
+              @someAction="resetSelectedData"
+            />
+            <router-link :to="`/${i18n.locale.value}/apiaries/create`">
+              <ButtonWrapper
+                src="../../assets/images/icons8-plus-24.png"
+                :label="t('create')"
+              />
+            </router-link>
+
+            <ButtonWrapper
+              src="../../assets/images/icons8-refresh-30.png"
+              click="click"
+              @someAction="apiaryStore.getInitApiaryData"
+            />
           </template>
           <template v-slot:header="props">
             <q-tr :props="props">
@@ -81,7 +106,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
                   class="display-el display"
                   id="wrapper-column"
                   ><p class="hiding-el transform" id="actions-column">
-                    Actions
+                    {{ t('actions') }}
                   </p></q-th
                 >
               </q-slide-transition>
@@ -110,13 +135,15 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
                     margin="0"
                     @click="apiaryStore.removeApiary(props.row._id)"
                   />
-                  <ButtonWrapper
-                    src="../../assets/images/icons8-pencil-48.png"
-                    :flat="true"
-                    background="none"
-                    color="#000000"
-                    margin="0"
-                  />
+                  <router-link
+                    :to="`/${i18n.locale.value}/apiaries/${props.row._id}/edit`"
+                    ><ButtonWrapper
+                      src="../../assets/images/icons8-pencil-48.png"
+                      :flat="true"
+                      background="none"
+                      color="#000000"
+                      margin="0"
+                  /></router-link>
                 </q-td>
               </q-slide-transition>
             </q-tr>
@@ -133,32 +160,41 @@ import { ref, toRefs, onMounted, computed } from 'vue';
 import { useApiary } from '@stores/apiary-store';
 import ChartApriaries from '@components/ChartApriaries.vue';
 import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
+import ButtonDropdown from '@components/organism/ButtonDropdown.vue';
+import { ApiaryData } from '@interfaces/apiary';
+
 import { apiary } from '@constant/dataForm';
 import { cloneDeep } from 'lodash';
 import { useI18n } from 'vue-i18n';
+import { useExelFromObject } from '../../composable/useExelFromObject';
+import {
+  unnecessaryKeys,
+  keyToCountMaxWidth,
+  optionsDropDown
+} from '@constant/dataInputs';
 
 const i18n = useI18n();
 const { t } = useI18n();
 
+const permissionShowRemoveAndEditIcon = ref(false);
 const apiaryStore = useApiary();
 const { loading, dataApiary } = toRefs(apiaryStore);
+const { getExel } = useExelFromObject(
+  unnecessaryKeys,
+  keyToCountMaxWidth,
+  dataApiary
+);
+
 const filter = ref('');
-// const loading = ref(false);
 const tableRef = ref(null);
 const selectApiary = ref(null);
 const refSelectApiary = ref<HTMLInputElement | null>(null);
 const columns = apiary.columns;
-// const navigationActive = ref(false);
 onMounted(() => {
-  // loading.value = true;
   if (sessionStorage.getItem('dataApiary')) {
-    // apiaryStore.dataApiary = JSON.parse(sessionStorage.getItem('dataApiary'));
     apiaryStore.setAllDataApiary(
       JSON.parse(sessionStorage.getItem('dataApiary'))
     );
-    // apiaryStore.setChartApiary(
-    //   JSON.parse(sessionStorage.getItem('chartApiary'))
-    // );
   }
 
   selectDataApiary();
@@ -166,11 +202,8 @@ onMounted(() => {
 const resetSelectedData = () => {
   preperedDataApiary.value = dataApiary.value;
   selectApiary.value = null;
-  // selectDataApiary(null);
 };
-// const inputRef = ref<Element | null>(null);
 
-const permissionShowRemoveAndEditIcon = ref(false);
 const showRemoveAndEditIcon = () => {
   const actionsRow = document.querySelectorAll('.actions-row');
   const wrapperRow = document.querySelectorAll('.wrapper-row');
@@ -192,17 +225,15 @@ const showRemoveAndEditIcon = () => {
   setTimeout(() => {
     permissionShowRemoveAndEditIcon.value =
       !permissionShowRemoveAndEditIcon.value;
-    console.log(
-      'qqqqqqqqqqqqqqqqqqqqqqqqsss',
-      permissionShowRemoveAndEditIcon.value
-    );
   }, 1500);
 };
 const covertedDataApiaryForSelect = computed(() => {
-  const preperedDataApiary = cloneDeep(dataApiary.value).map((apiary) => {
-    // apiary.label = apiary.name
-    return { label: apiary.name, id: apiary.id };
-  });
+  const preperedDataApiary = cloneDeep(dataApiary.value).map(
+    (apiary: ApiaryData) => {
+      // apiary.label = apiary.name
+      return { label: apiary.name, id: apiary.id };
+    }
+  );
 
   return preperedDataApiary;
 });
@@ -214,16 +245,18 @@ const selectDataApiary = (chosenApiary?: any) => {
     preperedDataApiary.value = dataApiary.value;
     return;
   }
-  preperedDataApiary.value = cloneDeep(dataApiary.value).filter((apiary) => {
-    // apiary.label = apiary.name
-    return chosenApiary.id === apiary.id;
-    // return { label: apiary.name, id: apiary.id };
-  });
+  preperedDataApiary.value = cloneDeep(dataApiary.value).filter(
+    (apiary: ApiaryData) => {
+      // apiary.label = apiary.name
+      return chosenApiary.id === apiary.id;
+      // return { label: apiary.name, id: apiary.id };
+    }
+  );
   console.log('preperedDataApiary', preperedDataApiary);
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .hiding-el {
   transform: translateX(100%);
   background-color: red;
@@ -262,4 +295,19 @@ const selectDataApiary = (chosenApiary?: any) => {
   transition: all 0.2s ease;
   transition-delay: 2s;
 } */
+:deep(.q-table__card .q-table__middle) {
+  height: 300px;
+}
+:deep(.q-table__top .q-table__control) {
+  flex-wrap: nowrap;
+  height: 100%;
+  /* width: 47%; */
+}
+:deep(.q-table__container > div:first-child) {
+  background-color: lightgrey;
+  height: 54px;
+}
+:deep(.q-table__container > div:last-child) {
+  background-color: lightgrey;
+}
 </style>

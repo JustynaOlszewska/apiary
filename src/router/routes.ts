@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
-// import { i18n } from '../boot/i18n';
 import { useApiary } from '../stores/apiary-store';
+import { ApiaryData } from '@interfaces/apiary';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -20,17 +20,24 @@ const routes: RouteRecordRaw[] = [
           return next();
         }
       },
-      // children: [
       {
         path: 'apiaries/create',
         name: 'create',
         component: () =>
           import('../components/pages/childrens/CreateApiary.vue')
-        // beforeEnter(to, from, next) {
-        //   return next();
-        // }
-        // }
-        // ]
+      },
+      {
+        path: 'apiaries/:id/edit',
+        name: 'edit',
+        component: () =>
+          import('../components/pages/childrens/CreateApiary.vue'),
+        props: (route) => {
+          const apiaryStore = useApiary();
+          const apiary = apiaryStore.dataApiary?.filter(
+            (apiary: ApiaryData) => apiary._id === route.params.id
+          );
+          return { id: route.params.id, apiary };
+        }
       },
       {
         path: 'beehives',

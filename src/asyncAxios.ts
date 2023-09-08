@@ -136,6 +136,9 @@ export const putAsync = async <T>(params: {
   params.setStatus({ key: 'pending', value: true });
 
   try {
+    const api = axios.create({
+      baseURL: import.meta.env.VITE_AXIOS_BASE_URL
+    });
     const response = await api.put(params.url, params.payload);
 
     params.setStatus({ key: 'pending', value: false });
@@ -198,11 +201,13 @@ export const deleteAsync = async <T>(params: {
     });
 
     const response = await api.delete(params.url, params.config);
+    console.log('tokeinside', response);
+
     params.setStatus({ key: 'pending', value: false });
     params.setStatus({ key: 'error', value: { value: false, message: '' } });
     params.setStatus({ key: 'success', value: true });
 
-    return response.data.data;
+    return response.status;
   } catch (e: any) {
     params.setStatus({ key: 'pending', value: false });
     if (e.response) {

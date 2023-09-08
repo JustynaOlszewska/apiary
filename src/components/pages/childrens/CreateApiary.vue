@@ -5,7 +5,7 @@
         <ButtonWrapper
           type="submit"
           form="myForm"
-          label="Create"
+          :label="props?.id ? 'Save' : 'Create'"
           click="click"
           @someAction="permissionToValidate = true"
         />
@@ -20,7 +20,7 @@
       </div>
     </div>
     <q-scroll-area class="scroll-area">
-      <FormWrapperCreateApiary />
+      <FormWrapperCreateApiary :apiary="props.apiary" :id="props.id" />
     </q-scroll-area>
   </div>
 </template>
@@ -31,6 +31,10 @@ import { useRouter } from 'vue-router';
 import FormWrapperCreateApiary from '@components/organism/forms/FormWrapperCreateApiary.vue';
 import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
 
+const props = defineProps<{
+  id?: string;
+  apiary?: Array<string>;
+}>();
 const router = useRouter();
 
 const permissionToValidate = ref(false);

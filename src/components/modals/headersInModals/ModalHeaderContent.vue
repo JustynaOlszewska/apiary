@@ -7,11 +7,13 @@
           v-model="lat"
           label="Latitude"
           placeholder="Select state."
+          type="number"
         />
         <InputWrapper
           v-model="lng"
           label="Longitude"
           placeholder="Select country."
+          type="number"
         />
       </div>
       <MapContainer

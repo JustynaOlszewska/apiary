@@ -15,7 +15,7 @@ export interface Datasets {
 }
 export interface InitChart {
   column: Columns[];
-  rows: Rows[];
+  rows: ApiaryData[];
 }
 export interface Columns {
   align: string;
@@ -24,7 +24,8 @@ export interface Columns {
   name: string;
   required: boolean;
 }
-export interface Rows {
+export interface ApiaryData {
+  _id: string;
   calcium: string;
   calories: number;
   fat: number;
@@ -34,6 +35,16 @@ export interface Rows {
   name: string;
   protein: number;
   type: string;
+  address: string;
+  sun: string;
+  lat: string;
+  lng: string;
+  country: string;
+  state: string;
+  city: string;
+  zip: string;
+  forages: string;
+  description: string;
 }
 export enum Pages {
   APIARIES = 'Apiaries',
@@ -74,4 +85,14 @@ export interface ButtonWrapperProps {
 export interface Coordinates {
   lat: number;
   lng: number;
+}
+export interface OptionsDropDownApiary {
+  extention: string;
+  title: string;
+}
+export interface ButtonDropDownProps {
+  options: OptionsDropDownApiary[];
+  background?: string;
+  color?: string;
+  margin?: string;
 }

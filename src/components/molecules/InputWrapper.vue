@@ -22,6 +22,7 @@
       required
       v-model="value"
       :type="type"
+      step="0.00000000000000001"
       no-error-icon
       hide-bottom-space
       :error="permissionToValidate && !(value && value?.length > 0)"

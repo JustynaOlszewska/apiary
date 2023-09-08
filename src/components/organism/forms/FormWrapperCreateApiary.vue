@@ -13,7 +13,7 @@
       @reset="onReset"
       :greedy="true"
     >
-      <h2>General</h2>
+      <h2>{{ t('formHeaders.general') }}</h2>
       <div class="border">
         <div>
           <InputWrapper
@@ -32,6 +32,7 @@
             v-model="type"
             label="Type"
             placeholder="Select type."
+            :options="typeOptions"
           />
           <InputWrapper
             v-model="sun"
@@ -40,16 +41,21 @@
             :options="sunOptions"
           />
 
-          <InputWrapper v-model="hives" label="Hives" placeholder="hives." />
           <InputWrapper
             v-model="hives"
+            label="Hives"
+            placeholder="hives."
+            type="number"
+          />
+          <InputWrapper
+            v-model="description"
             label="Description"
             placeholder="Select description."
             type="textarea"
           />
         </div>
       </div>
-      <h2>Address</h2>
+      <h2>{{ t('formHeaders.address') }}</h2>
       <div class="border">
         <div>
           <InputWrapper
@@ -64,22 +70,17 @@
             placeholder="Select city."
           />
           <InputWrapper
-            v-model="state"
-            label="State"
-            placeholder="Select state."
-          />
-          <InputWrapper
             v-model="country"
             label="Country"
             placeholder="Select country."
           />
         </div>
       </div>
-      <h2>Map coordiantes</h2>
+      <h2>{{ t('formHeaders.mapCoordiantes') }}</h2>
       <div class="border">
         <div>
           <InputWrapper
-            v-model="lat"
+            v-model.number="lat"
             label="Latitude"
             placeholder="Select state."
             type="number"
@@ -92,7 +93,7 @@
             ></q-icon>
           </InputWrapper>
           <InputWrapper
-            v-model="lng"
+            v-model.number="lng"
             label="Longitude"
             placeholder="Select lng."
             type="number"
@@ -130,7 +131,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { QForm } from 'quasar';
 import { useApiary } from '@stores/apiary-store';
 import TheModal from '@components/modals/TheModal.vue';
@@ -138,10 +139,17 @@ import 'leaflet/dist/leaflet.css';
 import ModalHeaderContent from '@components/modals/headersInModals/ModalHeaderContent.vue';
 import InputWrapper from '@components/molecules/InputWrapper.vue';
 import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
-import { foragesOptions, sunOptions } from '@constant/dataInputs';
+import { foragesOptions, sunOptions, typeOptions } from '@constant/dataInputs';
 import { provide } from 'vue';
 import { Coordinates } from '@interfaces/apiary';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+const props = defineProps<{
+  apiary?: Array<any>;
+  id?: string;
+}>();
 
 const router = useRouter();
 
@@ -156,7 +164,6 @@ const apiaryStore = useApiary();
 const lat = ref<number | null>(null);
 const lng = ref<number | null>(null);
 const country = ref<number | null>(null);
-const state = ref<number | null>(null);
 const city = ref<number | null>(null);
 const zip = ref<number | null>(null);
 const address = ref<number | null>(null);
@@ -167,13 +174,28 @@ const forages = ref(null);
 const type = ref(null);
 const sun = ref(null);
 const hives = ref(null);
+onMounted(() => {
+  if (props.apiary) {
+    lat.value = props.apiary[0].lat;
+    lng.value = props.apiary[0].lng;
+    hives.value = props.apiary[0].hives;
+    country.value = props.apiary[0].country;
+    city.value = props.apiary[0].city;
+    zip.value = props.apiary[0].zip;
+    address.value = props.apiary[0].address;
+    name.value = props.apiary[0].name;
+    forages.value = props.apiary[0].forages;
+    type.value = props.apiary[0].type;
+    sun.value = props.apiary[0].sun;
+    description.value = props.apiary[0].description;
+  }
+});
 const onSubmit = async () => {
   const formData = {
     lat: lat.value,
     lng: lng.value,
     hives: hives.value,
     country: country.value,
-    state: state.value,
     city: city.value,
     zip: zip.value,
     address: address.value,
@@ -184,7 +206,9 @@ const onSubmit = async () => {
     description: description.value
   };
   // if (r) {
-  const dataSended = await apiaryStore.addApiaryData(formData);
+  const dataSended = props?.apiary
+    ? await apiaryStore.updateApiaryData(formData, props.id)
+    : await apiaryStore.addApiaryData(formData);
 
   // }
   if (dataSended) {
@@ -204,7 +228,6 @@ const onReset = () => {
   lng.value = null;
   hives.value = null;
   country.value = null;
-  state.value = null;
   city.value = null;
   zip.value = null;
   address.value = null;
