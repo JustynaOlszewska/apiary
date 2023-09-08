@@ -42,6 +42,8 @@ export default {
   chartTitle: 'Datablad om bigårde',
   apiares: 'Liste over bigårde',
   search: 'Søg',
+  placeholder: 'Alle bigårde',
+  create: 'Skabe',
   actions: 'Akcje',
   formHeaders: {
     general: 'Generel',

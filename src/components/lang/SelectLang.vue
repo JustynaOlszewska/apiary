@@ -94,7 +94,7 @@ watch(
 );
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .closed-options {
   background-color: #ffb74d;
 }

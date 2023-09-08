@@ -11,15 +11,6 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
   <div>
     <div id="q-app">
       <div class="q-pa-md">
-        <!-- :visible-columns="[
-            'desc',
-            'name',
-            'address',
-            'type',
-            'sun exposure',
-            'hives'
-          ]" -->
-        <!-- :title="t('apiares')" -->
         <q-table
           v-if="preperedDataApiary && columns"
           :loading="loading"
@@ -41,48 +32,6 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
             />
           </template>
           <template v-slot:top-right>
-            <!-- <div> -->
-            <!-- <div> -->
-            <!-- <q-input
-              borderless
-              dense
-              debounce="300"
-              v-model="filter"
-              :placeholder="t('search')"
-            >
-              <template v-slot:append>
-                <q-icon name="search"></q-icon>
-              </template>
-            </q-input>
-
-            <q-select
-              square
-              outlined
-              ref="refSelectApiary"
-              v-model="selectApiary"
-              :options="covertedDataApiaryForSelect"
-              @update:model-value="(value) => selectDataApiary(value)"
-              label="Square outlined"
-            />
-            <ButtonWrapper
-              src="../../assets/images/icons8-reset-24.png"
-              click="click"
-              @someAction="resetSelectedData"
-            />
-            <router-link :to="`/${i18n.locale.value}/apiaries/create`">
-              <ButtonWrapper
-                src="../../assets/images/icons8-plus-24.png"
-                label="Create"
-              />
-            </router-link>
-
-            <ButtonWrapper
-              src="../../assets/images/icons8-refresh-30.png"
-              click="click"
-              @someAction="apiaryStore.getInitApiaryData"
-            /> -->
-            <!-- </div> -->
-            <!-- <div> -->
             <ButtonWrapper
               src="../../assets/images/icons8-tools-48.png"
               click="click"
@@ -90,32 +39,39 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               background="#EFEFEF"
             />
             <ButtonDropdown :options="optionsDropDown" @someAction="getExel" />
-            <!-- </div> -->
-            <!-- </div> -->
           </template>
           <template v-slot:top-left>
-            <!-- <div>
-              <div> -->
             <q-input
-              borderless
+              square
+              outlined
               dense
               debounce="300"
               v-model="filter"
               :placeholder="t('search')"
+              :style="{
+                width: '110px',
+                margin: '10px'
+              }"
+              filled
             >
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <q-icon name="search"></q-icon>
               </template>
             </q-input>
-
             <q-select
+              use-input
+              filled
               square
               outlined
+              :placeholder="t('placeholder')"
               ref="refSelectApiary"
               v-model="selectApiary"
               :options="covertedDataApiaryForSelect"
               @update:model-value="(value) => selectDataApiary(value)"
-              label="Square outlined"
+              :style="{
+                width: '170px',
+                margin: '10px'
+              }"
             />
             <ButtonWrapper
               src="../../assets/images/icons8-reset-24.png"
@@ -125,7 +81,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
             <router-link :to="`/${i18n.locale.value}/apiaries/create`">
               <ButtonWrapper
                 src="../../assets/images/icons8-plus-24.png"
-                label="Create"
+                :label="t('create')"
               />
             </router-link>
 
@@ -134,20 +90,6 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
               click="click"
               @someAction="apiaryStore.getInitApiaryData"
             />
-            <!-- </div>
-              <div>
-                <ButtonWrapper
-                  src="../../assets/images/icons8-tools-48.png"
-                  click="click"
-                  @someAction="showRemoveAndEditIcon"
-                  background="#EFEFEF"
-                />
-                <ButtonDropdown
-                  :options="optionsDropDown"
-                  @someAction="getExel"
-                />
-              </div> -->
-            <!-- </div> -->
           </template>
           <template v-slot:header="props">
             <q-tr :props="props">
@@ -314,7 +256,7 @@ const selectDataApiary = (chosenApiary?: any) => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .hiding-el {
   transform: translateX(100%);
   background-color: red;
@@ -355,5 +297,17 @@ const selectDataApiary = (chosenApiary?: any) => {
 } */
 :deep(.q-table__card .q-table__middle) {
   height: 300px;
+}
+:deep(.q-table__top .q-table__control) {
+  flex-wrap: nowrap;
+  height: 100%;
+  /* width: 47%; */
+}
+:deep(.q-table__container > div:first-child) {
+  background-color: lightgrey;
+  height: 54px;
+}
+:deep(.q-table__container > div:last-child) {
+  background-color: lightgrey;
 }
 </style>

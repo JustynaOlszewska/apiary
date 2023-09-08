@@ -43,7 +43,9 @@ export default {
   countBeehives: 'Liczba uli',
   apiares: 'Spis pasiek',
   search: 'Szukaj',
+  create: 'Stwórz',
   actions: 'Akcje',
+  placeholder: 'Lista pasiek',
   formHeaders: {
     general: 'Główne',
     address: 'Adres',

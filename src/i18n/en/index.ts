@@ -42,6 +42,8 @@ export default {
   chartTitle: 'Datasheet on apiaries',
   apiares: 'List of apiaries',
   search: 'Search',
+  placeholder: 'All apiaries',
+  create: 'Create',
   actions: 'Akcje',
   formHeaders: {
     general: 'General',
