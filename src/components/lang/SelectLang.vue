@@ -1,7 +1,8 @@
 <template>
   <q-toolbar-title @click="onFocusInput">
-    <div class="row">
+    <div class="row" @click="onFocusInput">
       <q-select
+        @click="onFocusInput"
         v-model="model"
         :options="options"
         color="teal"

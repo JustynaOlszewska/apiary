@@ -97,10 +97,11 @@ export const useApiary = defineStore('apiary', {
             setStatus: this.setStatus,
             config
           });
-          console.log('toke', r);
 
           if (r) {
+            console.log('toke', r);
             // this.setAllDataApiary(data);
+            this.getInitApiaryData();
             this.loading = false;
           }
         } catch (error) {

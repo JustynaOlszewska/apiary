@@ -9,6 +9,9 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
         @focusout="deactivateNavigation"
         @keydown="onKey" -->
   <div>
+    <!-- <p>//{{ selected }}</p>
+    <p>//{{ pagination }}</p> -->
+
     <div id="q-app">
       <div class="q-pa-md">
         <q-table
@@ -35,7 +38,7 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
             <ButtonWrapper
               src="../../assets/images/icons8-tools-48.png"
               click="click"
-              @someAction="showRemoveAndEditIcon"
+              @someAction="showRemoveAndEditIcons"
               background="#EFEFEF"
             />
             <ButtonDropdown :options="optionsDropDown" @someAction="getExel" />
@@ -92,42 +95,41 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
             />
           </template>
           <template v-slot:header="props">
-            <q-tr :props="props">
-              <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            <!-- <q-tr :props="props"> -->
+            <HeadTableApiaryList :props="props" />
+            <!-- <q-th v-for="col in props.cols" :key="col.name" :props="props">
                 {{ col.label }}
               </q-th>
-              <q-slide-transition
-                v-show="permissionShowRemoveAndEditIcon"
-                :duration="1000"
-              >
-                <q-th
-                  auto-width
-                  style="overflow: hidden; position: relative"
-                  class="display-el display"
-                  id="wrapper-column"
-                  ><p class="hiding-el transform" id="actions-column">
-                    {{ t('actions') }}
-                  </p></q-th
-                >
-              </q-slide-transition>
-            </q-tr>
+              <q-th
+                auto-width
+                style="overflow: hidden; position: relative"
+                class="display-el display"
+                id="wrapper-column"
+                ><p class="hiding-el transform" id="actions-column">
+                  {{ t('actions') }}
+                </p></q-th
+              > -->
+            <!-- </q-tr> -->
           </template>
-
           <template v-slot:body="props">
             <q-tr :props="props">
-              <q-td v-for="col in props.cols" :key="col.name" :props="props">
+              <BodyTableApiaryList
+                :props="props"
+                :permissionshowRemoveAndEditIcons="
+                  permissionshowRemoveAndEditIcons
+                "
+              />
+              <!-- <q-td v-for="col in props.cols" :key="col.name" :props="props">
                 {{ col.value }}
               </q-td>
-              <q-slide-transition
-                id="slide-transition"
-                v-show="permissionShowRemoveAndEditIcon"
-                :duration="1000"
+              <q-td
+                class="display-el display wrapper-row"
+                auto-width
+                :class="{ width: permissionshowRemoveAndEditIcons }"
               >
-                <q-td
-                  auto-width
-                  class="visibility-el visibility actions-row display display-el wrapper-row"
-                >
+                <div class="visibility-el visibility actions-row">
                   <ButtonWrapper
+                    v-if="permissionshowRemoveAndEditIcons"
                     src="../../assets/images/icons8-delete-24.png"
                     :flat="true"
                     background="none"
@@ -136,16 +138,18 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
                     @click="apiaryStore.removeApiary(props.row._id)"
                   />
                   <router-link
+                    v-if="permissionshowRemoveAndEditIcons"
                     :to="`/${i18n.locale.value}/apiaries/${props.row._id}/edit`"
                     ><ButtonWrapper
+                      v-if="permissionshowRemoveAndEditIcons"
                       src="../../assets/images/icons8-pencil-48.png"
                       :flat="true"
                       background="none"
                       color="#000000"
                       margin="0"
                   /></router-link>
-                </q-td>
-              </q-slide-transition>
+                </div>
+              </q-td> -->
             </q-tr>
           </template>
         </q-table>
@@ -156,14 +160,16 @@ https://quasar.dev/vue-components/table#example--keyboard-navigation
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, onMounted, computed } from 'vue';
+import { ref, toRefs, onMounted, computed, nextTick, watch } from 'vue';
 import { useApiary } from '@stores/apiary-store';
 import ChartApriaries from '@components/ChartApriaries.vue';
 import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
 import ButtonDropdown from '@components/organism/ButtonDropdown.vue';
 import { ApiaryData } from '@interfaces/apiary';
-
 import { apiary } from '@constant/dataForm';
+
+import BodyTableApiaryList from '@components/organism/tables/BodyTableApiaryList.vue';
+import HeadTableApiaryList from '@components/organism/tables/HeadTableApiaryList.vue';
 import { cloneDeep } from 'lodash';
 import { useI18n } from 'vue-i18n';
 import { useExelFromObject } from '../../composable/useExelFromObject';
@@ -176,7 +182,7 @@ import {
 const i18n = useI18n();
 const { t } = useI18n();
 
-const permissionShowRemoveAndEditIcon = ref(false);
+const permissionshowRemoveAndEditIcons = ref(false);
 const apiaryStore = useApiary();
 const { loading, dataApiary } = toRefs(apiaryStore);
 const { getExel } = useExelFromObject(
@@ -204,29 +210,73 @@ const resetSelectedData = () => {
   selectApiary.value = null;
 };
 
-const showRemoveAndEditIcon = () => {
+const showRemoveAndEditIcons = async (q) => {
+  if (!q) {
+    permissionshowRemoveAndEditIcons.value =
+      !permissionshowRemoveAndEditIcons.value;
+  }
+  await nextTick();
   const actionsRow = document.querySelectorAll('.actions-row');
   const wrapperRow = document.querySelectorAll('.wrapper-row');
+
   const wrapperColumn = document.getElementById('wrapper-column');
   const actionsColumn = document.getElementById('actions-column');
-  // if (permissionShowRemoveAndEditIcon.value)
-  //   actionsColumn?.classList.toggle('smooth-hiding');
-  actionsColumn?.classList.toggle('smooth-hiding');
 
+  wrapperRow.forEach((el) => {
+    // el.classList.toggle('smooth-display');
+    if (!q) {
+      el.classList.remove('smooth-display');
+    } else {
+      el.classList.toggle('smooth-display');
+      if (!permissionshowRemoveAndEditIcons.value) {
+        console.log('pppppppppppp');
+        el.classList.remove('smooth-display');
+
+        return;
+      }
+    }
+  });
   actionsRow.forEach((el) => {
+    // if (!q) {
+    if (!q) {
+      el.classList.remove('smooth-display');
+    } else {
+      el.classList.toggle('smooth-display');
+      console.log('ppppppppppppwww', permissionshowRemoveAndEditIcons.value);
+
+      if (!permissionshowRemoveAndEditIcons.value) {
+        el.classList.remove('smooth-display');
+
+        return;
+      }
+      el.classList.add('smooth-visibility');
+      return;
+    }
+
     el.classList.toggle('smooth-visibility');
   });
-
-  // wrapperColumn?.classList.toggle('smooth-display');
-  // wrapperRow.forEach((el) => {
-  //   el.classList.toggle('smooth-display');
-  // });
+  if (!q) {
+    wrapperColumn?.classList.toggle('smooth-display');
+    actionsColumn?.classList.toggle('smooth-hiding');
+  }
 
   setTimeout(() => {
-    permissionShowRemoveAndEditIcon.value =
-      !permissionShowRemoveAndEditIcon.value;
+    console.log(
+      'qqqqqqqqqqqqqqqqeeeeinsied',
+      q,
+      permissionshowRemoveAndEditIcons.value
+    );
+
+    // if (!q) {
+    //   permissionshowRemoveAndEditIcons.value =
+    //     !permissionshowRemoveAndEditIcons.value;
+    // }
+    // else if (q && permissionshowRemoveAndEditIcons.value === true) {
+    //   permissionshowRemoveAndEditIcons.value = false;
+    // }
   }, 1500);
 };
+
 const covertedDataApiaryForSelect = computed(() => {
   const preperedDataApiary = cloneDeep(dataApiary.value).map(
     (apiary: ApiaryData) => {
@@ -240,6 +290,15 @@ const covertedDataApiaryForSelect = computed(() => {
 const pagination = ref({});
 const selected = ref([]);
 const preperedDataApiary = ref(null);
+watch(
+  () => pagination.value,
+  () => {
+    // oldValue?.page &&
+    showRemoveAndEditIcons('q');
+  },
+  { immediate: true }
+);
+
 const selectDataApiary = (chosenApiary?: any) => {
   if (!chosenApiary) {
     preperedDataApiary.value = dataApiary.value;
@@ -258,16 +317,15 @@ const selectDataApiary = (chosenApiary?: any) => {
 
 <style scoped lang="scss">
 .hiding-el {
-  transform: translateX(100%);
-  background-color: red;
+  transform: translateX(130px);
+  width: 0;
 }
 .smooth-hiding {
   transform: translateX(0);
-  background-color: green;
+  width: 120px;
 }
 .transform {
   transition: all 2s ease;
-  /* transition-delay: 1s; */
 }
 .visibility-el {
   visibility: hidden;
@@ -276,32 +334,24 @@ const selectDataApiary = (chosenApiary?: any) => {
   visibility: visible;
 }
 .visibility {
-  transition: all 0.3s ease;
-  transition-delay: 1s;
-}
-/* .display-el { */
-/* opacity: 0; */
-/* background-color: red; */
-/* transform: scale(0); */
-/* display: none; */
-/* } */
-/* .smooth-display { */
-/* opacity: 1; */
-/* background-color: green; */
-/* transform: scale(1); */
-/* display: block; */
-/* } */
-/* .display {
-  transition: all 0.2s ease;
+  transition: all 2s ease;
   transition-delay: 2s;
-} */
+}
+.display-el {
+  width: 0;
+}
+.smooth-display {
+  width: 40px;
+}
+.display {
+  transition: all 0.2s ease;
+}
 :deep(.q-table__card .q-table__middle) {
   height: 300px;
 }
 :deep(.q-table__top .q-table__control) {
   flex-wrap: nowrap;
   height: 100%;
-  /* width: 47%; */
 }
 :deep(.q-table__container > div:first-child) {
   background-color: lightgrey;
@@ -309,5 +359,8 @@ const selectDataApiary = (chosenApiary?: any) => {
 }
 :deep(.q-table__container > div:last-child) {
   background-color: lightgrey;
+}
+.width {
+  width: 140px;
 }
 </style>

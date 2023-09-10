@@ -184,7 +184,7 @@ export const putAsync = async <T>(params: {
   }
 };
 
-export const deleteAsync = async <T>(params: {
+export const deleteAsync = async (params: {
   url: string;
   // payload: T;
   setStatus: (status: {
