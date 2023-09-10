@@ -292,7 +292,7 @@ const selected = ref([]);
 const preperedDataApiary = ref(null);
 watch(
   () => pagination.value,
-  (newValue, oldValue) => {
+  () => {
     // oldValue?.page &&
     showRemoveAndEditIcons('q');
   },
