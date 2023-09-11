@@ -4,9 +4,6 @@
     <Transition> <div :key="$route.path">Beehives list</div></Transition>
   </div>
 </template>
-
-<script setup lang="ts"></script>
-
 <style scoped lang="scss">
 .v-enter-active,
 .v-leave-active {
