@@ -10,7 +10,13 @@ interface State {
   dataChart: DataChart;
   status: any;
   loading: boolean;
-  essentialLinks: any;
+  essentialLinks: Array<{
+    title: string;
+    caption: string;
+    icon: string;
+    link: string;
+    route: string;
+  }>;
 }
 export const useApiary = defineStore('apiary', {
   state: (): State => ({

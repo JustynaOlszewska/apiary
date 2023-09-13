@@ -1,6 +1,9 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
-import messages from 'src/i18n';
+//zakomentowałam linię pod spodem, bo test zwracał błąd ale nie wiem czy to czegoś nie zepsuo.
+// import messages from 'src/i18n';
+import messages from '../../src/i18n';
+
 export type MessageLanguages = keyof typeof messages;
 // Type-define 'en-US' as the master schema for the resource
 export type MessageSchema = (typeof messages)['en'];

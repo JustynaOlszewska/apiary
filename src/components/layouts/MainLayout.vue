@@ -32,7 +32,6 @@
         <EssentialLink
           v-for="link in apiaryStore.essentialLinks"
           :key="link.link"
-          :title="link.title"
           v-bind="link"
           @get-data="apiaryStore.getInitApiaryData"
         />
