@@ -9,7 +9,8 @@
     <q-icon class="button-icon" v-if="src">
       <img :src="getImageUrl()" :alt="src" />
     </q-icon>
-    <div class="btn" v-if="label">{{ label }}</div>
+    <div v-if="label">{{ label }}</div>
+    <!-- class="btn" -->
   </q-btn>
 </template>
 
@@ -21,7 +22,7 @@ const props = withDefaults(defineProps<ButtonWrapperProps>(), {
   flat: false,
   background: '#ffb74d',
   color: '#ffff',
-  margin: '20px 12px 20px 0'
+  margin: '20px 12px 20px 0',
 });
 const background = computed(() => {
   return props.background;
