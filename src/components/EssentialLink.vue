@@ -1,6 +1,6 @@
 <template>
   <Transition>
-    <div class="route-wrapper" :data-active="title">
+    <div class="route-wrapper" :data-active="title" data-test="link">
       <!-- title === Pages.APIARIES && $emit('getData'); -->
       <router-link :to="link" @click="show = !show" class="text-link">
         <q-item-section avatar>
@@ -20,7 +20,19 @@ import { onMounted, watch, ref } from 'vue';
 import { Pages } from '@interfaces/apiary';
 import { useApiary } from '@stores/apiary-store';
 import { useRoute } from 'vue-router';
-
+export interface EssentialLinkProps {
+  title: string;
+  caption?: string;
+  link: string;
+  getData?: () => void;
+  icon?: string;
+}
+const props = withDefaults(defineProps<EssentialLinkProps>(), {
+  caption: '',
+  // link: '#',
+  icon: ''
+  // title: ''
+});
 const route = useRoute();
 const apiaryStore = useApiary();
 const show = ref(true);
@@ -52,7 +64,7 @@ const setStyleActiveElement = (title: string, init?: boolean) => {
   });
 };
 watch(
-  () => route.path,
+  () => route?.path,
   (newValue) => {
     const currentRoute =
       newValue.includes(props.title.toLocaleLowerCase()) && props.title;
@@ -62,20 +74,6 @@ watch(
     setStyleActiveElement(currentRoute);
   }
 );
-
-export interface EssentialLinkProps {
-  title: string;
-  caption?: string;
-  link?: string;
-  getData?: () => void;
-  icon?: string;
-}
-const props = withDefaults(defineProps<EssentialLinkProps>(), {
-  caption: '',
-  link: '#',
-  icon: '',
-  title: ''
-});
 </script>
 <style scoped lang="scss">
 :deep(.q-item__section--avatar) {

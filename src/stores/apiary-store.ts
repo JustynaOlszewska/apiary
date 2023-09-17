@@ -10,7 +10,13 @@ interface State {
   dataChart: DataChart;
   status: any;
   loading: boolean;
-  essentialLinks: any;
+  essentialLinks: Array<{
+    title: string;
+    // caption: string;
+    icon: string;
+    link: string;
+    route: string;
+  }>;
 }
 export const useApiary = defineStore('apiary', {
   state: (): State => ({
@@ -22,53 +28,60 @@ export const useApiary = defineStore('apiary', {
         {
           label: 'Data One',
           backgroundColor: '#f87979',
-          data: null
-        }
-      ]
+          data: null,
+        },
+      ],
     },
     status: {
       error: {
         value: false,
-        message: ''
+        message: '',
       },
       success: false,
-      pending: false
+      pending: false,
     },
     loading: false,
     essentialLinks: [
       {
         title: 'Apiaries',
-        caption: 'quasar.dev',
+        // caption: 'quasar.dev',
         icon: 'signpost',
         link: '/pl/apiaries',
-        route: 'apiaries'
+        route: 'apiaries',
+      },
+      {
+        title: 'Calendar',
+        // caption: 'quasar.dev',
+        icon: 'event',
+        link: '/pl/calendar',
+        route: 'calendar',
       },
       {
         title: 'Beehives',
-        caption: 'github.com/quasarframework',
+        // caption: 'github.com/quasarframework',
         icon: 'inventory_2',
         link: '/pl/beehives',
-        route: 'beehives'
+        route: 'beehives',
       },
       {
         title: 'Login',
-        caption: 'github.com/quasarframework',
+        // caption: 'github.com/quasarframework',
         icon: 'inventory_2',
         link: '/pl/login',
-        route: 'login'
+        route: 'login',
       },
       {
         title: 'Register',
-        caption: 'github.com/quasarframework',
+        // caption: 'github.com/quasarframework',
         icon: 'inventory_2',
         link: '/pl/register',
 
-        route: 'register'
-      }
-    ]
+        route: 'register',
+      },
+    ],
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2
+    doubleCount: (state) => state.counter * 2,
   },
   actions: {
     setCurrentRoute(actualPage: string) {
@@ -85,8 +98,8 @@ export const useApiary = defineStore('apiary', {
 
       const config = {
         headers: {
-          'x-auth-token': token
-        }
+          'x-auth-token': token,
+        },
       };
       if (sessionStorage.getItem('token')) {
         try {
@@ -95,7 +108,7 @@ export const useApiary = defineStore('apiary', {
             url: `http://localhost:5000/api/apiary/rows/${id}`,
             // payload: id,
             setStatus: this.setStatus,
-            config
+            config,
           });
 
           if (r) {
@@ -115,8 +128,8 @@ export const useApiary = defineStore('apiary', {
       const token = sessionStorage.getItem('token');
       const config = {
         headers: {
-          'x-auth-token': token
-        }
+          'x-auth-token': token,
+        },
       };
       if (sessionStorage.getItem('token')) {
         try {
@@ -124,7 +137,7 @@ export const useApiary = defineStore('apiary', {
           const data = await getAsync({
             url: 'http://localhost:5000/api/apiary/rows',
             setStatus: this.setStatus,
-            config
+            config,
           });
           if (data) {
             this.setAllDataApiary(data);
@@ -143,7 +156,9 @@ export const useApiary = defineStore('apiary', {
           sessionStorage.getItem('currentLang')
         );
         this.router.push({
-          path: `/${sessionStorage.getItem('currentLang')?.toLowerCase()}/login`
+          path: `/${sessionStorage
+            .getItem('currentLang')
+            ?.toLowerCase()}/login`,
         });
       }
     },
@@ -152,8 +167,8 @@ export const useApiary = defineStore('apiary', {
 
       const config = {
         headers: {
-          'x-auth-token': token
-        }
+          'x-auth-token': token,
+        },
       };
       // const data = {
       //   name: 'Testowy rzszerzony',
@@ -178,7 +193,7 @@ export const useApiary = defineStore('apiary', {
             url: 'http://localhost:5000/api/apiary/rows',
             payload: data,
             setStatus: this.setStatus,
-            config
+            config,
           });
           console.log('toke', r);
 
@@ -199,8 +214,8 @@ export const useApiary = defineStore('apiary', {
 
       const config = {
         headers: {
-          'x-auth-token': token
-        }
+          'x-auth-token': token,
+        },
       };
       if (sessionStorage.getItem('token')) {
         try {
@@ -209,7 +224,7 @@ export const useApiary = defineStore('apiary', {
             url: `http://localhost:5000/api/apiary/rows/${id}`,
             payload: data,
             setStatus: this.setStatus,
-            config
+            config,
           });
           console.log('toke', r);
 
@@ -276,6 +291,6 @@ export const useApiary = defineStore('apiary', {
       this.dataChart.datasets[0].data = sum;
 
       console.log(data);
-    }
-  }
+    },
+  },
 });

@@ -3,13 +3,19 @@
     <div>
       <h4 class="logo-title">{{ $t('login.logo') }}</h4>
       <h2 class="auth-heading">{{ $t('login.title') }}</h2>
-      <q-form @submit="onSubmit" class="q-gutter-md" ref="myForm">
+      <q-form
+        @submit="onSubmit"
+        class="q-gutter-md"
+        ref="myForm"
+        data-test="form"
+      >
         <!-- <q-toggle
       v-model="accept"
       label="I accept the license and terms"
     ></q-toggle> -->
 
         <q-input
+          id="test-login-email"
           v-model="email"
           :label="$t('login.label.email')"
           type="email"
@@ -21,6 +27,8 @@
           @focus="authStore.errorLogin = false"
         ></q-input>
         <q-input
+          id="test-login-password"
+          data-test="nombre_caja"
           :type="isPwd ? 'password' : 'text'"
           v-model="password"
           :label="$t('login.label.password')"
@@ -51,7 +59,7 @@
             size="20px"
           />
           <div style="height: 30px; margin-top: 20px">
-            <p v-if="authStore.errorLogin" style="color: red">
+            <p v-if="authStore?.errorLogin" style="color: red">
               {{ $t('login.errorLogin') }}
             </p>
           </div>
@@ -66,7 +74,7 @@
       </q-form>
       <p class="margin">
         {{ $t('login.register.redirect.firstTime') }}
-        <router-link :to="`/${i18n.locale.value}/register`">{{
+        <router-link :to="`/${i18n?.locale.value}/register`">{{
           $t('login.register.redirect.free')
         }}</router-link>
       </p>

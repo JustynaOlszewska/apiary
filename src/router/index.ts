@@ -32,7 +32,7 @@ export default route(function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE)
+    history: createHistory()
   });
   Router.beforeEach((to, from, next) => {
     const langFroom = from.params.lang;
@@ -44,6 +44,8 @@ export default route(function (/* { store, ssrContext } */) {
       return next('pl/login');
     } else if (lang && !langFroom) {
       sessionStorage.setItem('currentLang', lang);
+      //ciekwe cy ten komentrz nie popsuł jezyków
+      // sessionStorage.setItem('currentLang', lang[0]);
       return next();
     }
     next();

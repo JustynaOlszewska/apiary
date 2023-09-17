@@ -44,7 +44,6 @@ const emit = defineEmits(['update:modelValue']);
 const permissionToValidate: boolean | undefined = inject(
   'permissionToValidate'
 );
-const text = ref('');
 const value = computed({
   get() {
     return props.modelValue;

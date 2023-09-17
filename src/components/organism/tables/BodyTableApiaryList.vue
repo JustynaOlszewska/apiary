@@ -4,7 +4,7 @@
   <!-- <template v-slot:body="props"> -->
   <!-- <q-tr :props="props"> -->
 
-  <q-td v-for="col in props.cols" :key="col.name" :props="props">
+  <q-td v-for="col in props?.cols" :key="col.name" :props="props">
     {{ col.value }}
   </q-td>
   <q-td
@@ -21,11 +21,11 @@
         background="none"
         color="#000000"
         margin="0"
-        @click="apiaryStore.removeApiary(props.row._id)"
+        @click="apiaryStore.removeApiary(props?.row._id)"
       />
       <router-link
         v-if="permissionshowRemoveAndEditIcons"
-        :to="`/${i18n.locale.value}/apiaries/${props.row._id}/edit`"
+        :to="`/${i18n.locale.value}/apiaries/${props?.row._id}/edit`"
         ><ButtonWrapper
           v-if="permissionshowRemoveAndEditIcons"
           src="../../assets/images/icons8-pencil-48.png"

@@ -18,13 +18,13 @@ const routes: RouteRecordRaw[] = [
           const apiaryStore = useApiary();
           await apiaryStore.getInitApiaryData();
           return next();
-        }
+        },
       },
       {
         path: 'apiaries/create',
         name: 'create',
         component: () =>
-          import('../components/pages/childrens/CreateApiary.vue')
+          import('../components/pages/childrens/CreateApiary.vue'),
       },
       {
         path: 'apiaries/:id/edit',
@@ -37,7 +37,15 @@ const routes: RouteRecordRaw[] = [
             (apiary: ApiaryData) => apiary._id === route.params.id
           );
           return { id: route.params.id, apiary };
-        }
+        },
+      },
+      {
+        path: 'calendar',
+        name: 'calendar',
+        component: () => import('../components/pages/TasksInApiaries.vue'),
+        beforeEnter(to, from, next) {
+          return next();
+        },
       },
       {
         path: 'beehives',
@@ -45,7 +53,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../components/pages/BeehivesList.vue'),
         beforeEnter(to, from, next) {
           return next();
-        }
+        },
       },
       {
         path: 'login',
@@ -53,7 +61,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../components/auth/LoginForm.vue'),
         beforeEnter(to, from, next) {
           return next();
-        }
+        },
       },
       {
         path: 'register',
@@ -61,10 +69,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../components/auth/RegisterForm.vue'),
         beforeEnter(to, from, next) {
           return next();
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
   // { path: '', component: () => import('pages/IndexPage.vue') }
   // Always leave this as last one,
   // but you can also remove it
