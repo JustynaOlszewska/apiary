@@ -1,12 +1,13 @@
 <template>
   <div class="subcontent">
     <navigation-bar @today="onToday" @prev="onPrev" @next="onNext" />
-    <ButtonWrapper
+    <!-- <ButtonWrapper
       label="Today"
       flat
       color="#00000"
       background="#F0F0F0F0"
       click="click"
+      @someAction="moveToToday"
     />
     <ButtonWrapper
       label="<"
@@ -21,10 +22,11 @@
       color="#00000"
       background="#F0F0F0F0"
       click="click"
-    />
+    /> -->
     <!-- @someAtion="onPrev" -->
 
-    <p>//tu będzie data{{ selectedDate }}</p>
+    <p>{{ convertedDate }}</p>
+    <p>//{{ selectedView }}</p>
     <div class="q-ma-sm q-gutter-sm row justify-center">
       <!-- <q-select
         v-model="selectedCalendar"
@@ -91,6 +93,9 @@
       >
         <q-calendar
           ref="calendar"
+          :cell-width="selectedView === 'month' && '200px'"
+          :interval-minutes="selectedView !== 'month' ? 30 : 60"
+          :interval-height="selectedView !== 'month' ? 10 : 50"
           v-model="selectedDate"
           v-model:model-resources="resources"
           v-model:model-title="titleTasks"
@@ -272,7 +277,7 @@ import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass';
 import '@quasar/quasar-ui-qcalendar/src/QCalendar.sass';
 import ButtonWrapper from '@components/organism/ButtonWrapper.vue';
 
-// import NavigationBar from '../components/NavigationBar.vue';
+import NavigationBar from '@components/NavigationBar.vue';
 
 // import Done from '@carbon/icons-vue/es/checkmark--outline/16';
 // import Pending from '@carbon/icons-vue/es/pending/16';
@@ -282,7 +287,7 @@ export default defineComponent({
   name: 'CalendarApiariesPlans',
   components: {
     ButtonWrapper,
-    // NavigationBar,
+    NavigationBar,
     QCalendar,
     // Done,
     // Pending,
@@ -531,6 +536,54 @@ export default defineComponent({
           },
         ],
       };
+    const convertedDate = computed(() => {
+      const daysOfWeek = [
+        'Poniedziłek',
+        'Wtorek',
+        'Środa',
+        'Czwartek',
+        'Piątek',
+        'Sobota',
+        'Niedziela',
+      ];
+      const monthNames = [
+        'January',
+        'February',
+        'March',
+        'Kwiecień',
+        'Maj',
+        'Czerwuec',
+        'Lipiec',
+        'Sierpień',
+        'Wrzesień',
+        'Październik',
+        'Listopad',
+        'Grudzień',
+      ];
+      const sixdays = 518400000;
+      const t = new Date(selectedDate.value);
+      const futureDate = new Date();
+      futureDate.setTime(t.getTime() + sixdays);
+      const numberDayOfWeek = new Date(selectedDate.value).getDay();
+
+      const numberDayOfMonth = new Date(selectedDate.value).getDate();
+      const numberDayOfMonthFutureDate = new Date(futureDate).getDate();
+
+      const numberMonth = new Date(selectedDate.value).getMonth();
+      const numberMonthFutureDate = new Date(futureDate).getMonth();
+
+      const numberYear = new Date(selectedDate.value).getFullYear();
+      const numberYearFutureDate = new Date(futureDate).getFullYear();
+
+      const nameDayOfWeek = daysOfWeek[numberDayOfWeek];
+      const nameMonth = monthNames[numberMonth];
+      const nameMonthFutureDate = monthNames[numberMonthFutureDate];
+      return selectedView.value === 'day'
+        ? `${nameDayOfWeek} ${nameMonth} ${numberDayOfMonth}, ${numberYear}`
+        : selectedView.value === 'week'
+        ? `${numberDayOfMonth} ${nameMonth} - ${numberDayOfMonthFutureDate} ${nameMonthFutureDate} ${numberYearFutureDate}`
+        : `${nameMonth} ${numberYear}`;
+    });
 
     const parsedTasks = computed(() => {
       const start = parsed(startDate.value);
@@ -670,6 +723,7 @@ export default defineComponent({
     }
 
     return {
+      convertedDate,
       selectedCalendar,
       selectedView,
       selectedDate,
